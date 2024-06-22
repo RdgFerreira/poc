@@ -21,7 +21,7 @@ function bhaskara() {
     }
 }
 
-// Correct answer with: 0 changes after copilot and/or copilot chat and 0 manual changes
+// Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
 
 // ================================================================================================================================================================
 
@@ -47,7 +47,7 @@ function simpleSort() {
     console.log([A, B, C].join('\n'));
 }
 
-// Correct answer with: 0 changes after copilot and/or copilot chat and 0 manual changes
+// Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
 
 // ================================================================================================================================================================
 
@@ -82,7 +82,7 @@ function quadrant() {
     }
 }
 
-// Correct answer with: 0 changes after copilot and/or copilot chat and 0 manual changes
+// Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
 
 // ================================================================================================================================================================
 
@@ -121,7 +121,7 @@ function perfectNumber () {
     }
 }
 
-// Correct answer with: 0 changes after copilot and/or copilot chat and 0 manual changes
+// Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
 
 // ================================================================================================================================================================
 
@@ -180,7 +180,7 @@ function bazinga() {
     }
 }
 
-// Correct answer with: 0 changes after copilot and/or copilot chat and 0 manual changes
+// Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
 
 // ================================================================================================================================================================
 
@@ -324,7 +324,7 @@ function whichTriangle() {
     }
 }
 
-// Correct answer with: 0 changes after copilot and/or copilot chat and 0 manual changes
+// Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
 
 // ================================================================================================================================================================
 
@@ -420,90 +420,302 @@ function helpPatatitu() {
 // ================================================================================================================================================================
 
 /*
-Help Patatatitu (ProblemId 2724, Page 9 of 14):
+Pyramid (ProblemId 2785, Page 10 of 14):
 
-Juvenal behaved exemplary this year, since he likes chemistry deeply and really want to earn an Alchemy kit. However, 
-Juvenal asked to include some dangerous elements in his kit. As Santa could not deny the request ( how to say no to 
-the world most well behaved children?) asked to poor elf Patatatitu to ensure that the present was safe.
+In the deposit of the factory, leaning against a wall, there is a matrix of N lines by N columns of stacked boxes. Each box has an associated positive integer weight. 
+The factory inspector needs to remove some boxes from the matrix so as to leave a kind of box pyramid satisfying the following restrictions:
 
-Patatatitu knows a lot about chemistry, and knows every dangerous compound that can be made with the elements 
-available on Juvenal’s kit. Thus, he decided to send a cd together with the gift, containing a program which asserts
- the safety of Juvenal’s experiments. Everyone agrees that the world’s most well behaved children would never do an 
- experiment without first checking it’s safety as per Santa instructions. However Patatatitu knows nothing about 
- programming and is after someone to help him. Can you help?
+If a box is in the pyramid, the box just below it should also be in the pyramid;
+In the i-th line of boxes (line 1 is that of the top of the matrix), the pyramid must have exactly i consecutive boxes.
 
-To elucidate, Patatatitu explains that a dangerous compound are formed from a mix of elements in theirs chemical 
-formula respecting it’s order and proportions. In this kit it’s possible to add one element each time, in various 
-quantities. Thus, to form chlorine trifluoride (ClF3), an extremely dangerous compound, you must add an atom of 
-chlorine (Cl) and three of fluorine (F3), regardless of what was added before or after. ClF4 is not a dangerous 
-compound since it’s a different proportion from ClF3. Similarly, if Mg2F is a dangerous compound, Mg2Fe is safe, 
-since fluorine (F) is different from iron (Fe).
+Given the weights of all boxes in the matrix, your program must calculate the minimum total weight a pyramid might have if the inspector 
+pulls out some boxes according to the above restrictions.
 
 Input
-The input consist of an integer N (0 < N < 10) which indicates the number of test cases. Each test case have an 
-integer T (0 < T < 51) which indicates the number of dangerous compounds possible, if th elements are included 
-in the order and proportions shown. Follow T lines, each containing a string up to 50 characters representing a 
-formula that generates a dangerous compound if the elements are added in that particular order and proportion. 
-After, is given an integer U (0 < T < 51) that indicates the number of experiments Juvenal will do. 
-Follow U lines each containing an string up to 50 characters representing the elements that Juvenal will use in the order and proportions as they are added.
+The first line of the input contains an integer N (1 ≤ N ≤ 100), indicating the dimension of the matrix. 
+The next N lines each contain N integers representing the weights of the boxes in each row of the array of boxes.
+The values ​​of the array elements are between 1 and 100, inclusive.
 
 Output
-The output consist of U per test case, which must inform if Juvenal must abort it’s experiment or proceed with the U-th experiment of the test case. 
-If Juvenal must abort print “Abortar”, else if it’s safe print “Prossiga”.Test cases must be separated by a blank line.
+Your program must to produce an unique line, containing an integer, indicating the total weight that the pyramid might have.
 */
 
-function parseCompound(compound) {
-    let elements = [];
-    let match;
-    let regex = /([A-Z][a-z]*)(\d*)/g;
-    while (match = regex.exec(compound)) {
-        elements.push({
-            element: match[1],
-            quantity: match[2] ? Number(match[2]) : 1
-        });
-    }
-    return elements;
-}
-
-function containsCompound(experiment, dangerousCompound) {
-    for (let i = 0; i <= experiment.length - dangerousCompound.length; i++) {
-        if (JSON.stringify(experiment.slice(i, i + dangerousCompound.length)) === JSON.stringify(dangerousCompound)) {
-            return true;
-        }
-    }
-    return false;
-}
-
-function helpPatatitu() {
+function pyramid() {
     var input = require('fs').readFileSync('/dev/stdin', 'utf8');
     var lines = input.split('\n');
     var N = Number(lines.shift());
-    while (N--) {
-        var T = Number(lines.shift());
-        var dangerousCompounds = [];
-        while (T--) {
-            dangerousCompounds.push(parseCompound(lines.shift()));
-        }
-        var U = Number(lines.shift());
-        while (U--) {
-            var experiment = parseCompound(lines.shift());
-            var isDangerous = false;
-            for (var i = 0; i < dangerousCompounds.length; i++) {
-                if (containsCompound(experiment, dangerousCompounds[i])) {
-                    isDangerous = true;
-                    break;
+    var matrix = [];
+    for (var i = 0; i < N; i++) {
+        matrix.push(lines.shift().split(' ').map(Number));
+    }
+
+    const N = matrix.length;
+    let dp = Array.from({ length: N }, () => Array(N).fill(Infinity));
+
+    // Initialize the bottom row
+    for (let j = 0; j < N; j++) {
+        dp[N-1][j] = matrix[N-1][j];
+    }
+
+    // Fill the DP table from bottom to top
+    for (let i = N - 2; i >= 0; i--) {
+        for (let j = 0; j <= i; j++) {
+            let minWeight = Infinity;
+            for (let w = 1; w <= i + 1; w++) {
+                if (j + w - 1 <= i) {
+                    let currentWeight = 0;
+                    for (let k = j; k < j + w; k++) {
+                        currentWeight += matrix[i][k];
+                    }
+                    if (j > 0) currentWeight += dp[i + 1][j - 1];
+                    if (j + w <= i + 1) currentWeight += dp[i + 1][j + w];
+                    minWeight = Math.min(minWeight, currentWeight);
                 }
             }
-            if (isDangerous) {
-                console.log('Abortar');
-            } else {
-                console.log('Prossiga');
-            }
+            dp[i][j] = minWeight;
         }
-        if(N > 0) console.log('');
+    }
+
+    // The answer is the minimum value in the first row of dp
+    let minTotalWeight = Math.min(...dp[0]);
+
+    console.log(minTotalWeight);
+}
+
+
+// Wrong answer (80%) with: 7 changes after copilot and/or copilot chat and 0 manual changes
+
+// ================================================================================================================================================================
+
+/*
+Eearliest Deadline First (ProblemId 2823, Page 11 of 14):
+
+Your job for this problem is to check if it is possible to schedule a set of periodic tasks under real-time constraints.
+
+A real-time task is defined by two numbers. The first number is the computational cost of the task. It is the computational cost of each complete run of the task. The second number is the period of the process. In other words, the process restarts again after each period.
+
+The task set will be scheduled using the EDF algorithm (Earliest Deadline First). It is known that EDF is optimal. This means that if a set of tasks cannot be scheduled by EDF, there isn't another algorithm that can schedule it.
+
+The operating system that will run these tasks runs on a single core machine. The tasks are preemptable. That is, a task can take the place of another task during its run, if required.
+
+Consider that the cost of switching tasks is 0.
+
+Input
+The first line of the input has a value  
+1 ≤ N ≤ 10
+, which states the number of processes under schedule.
+
+Every N following line represents a process, and has 2 values 
+1 ≤ C ≤ 5 and C ≤ P ≤ 100
+, that represent the computational cost and the period of each process, respectively.
+
+Output
+The output consists of a single line, with the string OK or the string FAIL, if the scheduling is possible or not, respectively.
+*/
+
+function edf() {
+    var input = require('fs').readFileSync('/dev/stdin', 'utf8');
+    var lines = input.split('\n');
+    var N = Number(lines.shift());
+    var tasks = [];
+    while (N--) {
+        var [C, P] = lines.shift().split(' ').map(Number);
+        tasks.push([C, P]);
+    }
+
+    // Initialize total utilization
+    let totalUtilization = 0;
+
+    // Iterate through each task to calculate total utilization
+    for (let i = 0; i < tasks.length; i++) {
+        const [cost, period] = tasks[i];
+        totalUtilization += cost / period;
+    }
+
+    // Check if total utilization is within the limit
+    if (totalUtilization <= 1) {
+        console.log("OK");
+    } else {
+        console.log("FAIL");
     }
 }
 
-// Correct answer with: 1 changes after copilot and/or copilot chat and 1 manual changes
-    // added regex to extract elements and quantities and a function to check if the experiment contains a dangerous compound
-    // Stopped printing duplicated new line after last experiment
+
+// Correct Answer with: 2 changes after copilot and/or copilot chat and 1 manual changes
+    // changed object pushed to the tasks array
+
+
+// ================================================================================================================================================================
+
+/*
+Space Communication (ProblemId 2823, Page 12 of 14):
+
+The year is 2337. Thousands of human crews travel in space in a crazy way to and fro. 
+And the best: the ships can communicate via radio, it is even possible for crews between different ships to play games.
+
+However, unfortunately the signal quality fades with distance. While nearby ships are able to communicate well, 
+ships that are distant have poor signal strength to communicate. For this reason, the ships preferentially communicate with the nearest ship.
+
+Considering a stretch of space where the ships can be considered points in space, therefore 
+with three-dimensional coordinates, with each axis being able to have a value between 0 and 100 m.u. 
+It is known that the intensity of the communication signal is given by the distance between the ships; 
+so that ships that are spaced up to 20 m.u. have a high intensity; above 20 m.u. and up to 50 m.u. 
+have a medium intensity; while the signal strength above 50 m.u. it is so low that it does not allow communication between ships.
+
+Given the information passed on, help the crew of these ships to be able to know the signal strength
+between each of them and the nearest ship, to inform them if they will be able to have good communication with each other.
+
+Input
+The first line of the entry has an integer N (2 <= N <= 10), 
+which represents the number of ships in the space to be analyzed. 
+The next N lines will receive 3 integer values, separated by space, 
+indicating the discrete x, y and z coordinates of each ship.
+
+Output
+One line for each ship, indicating a letter for the signal strength between it and the nearest ship. 
+"A" stands for high intensity; "M" represents medium intensity and "B" represents low intensity.
+*/
+
+function signalStrength() {
+    var input = require('fs').readFileSync('/dev/stdin', 'utf8');
+    var lines = input.split('\n');
+    var N = Number(lines.shift());
+    var ships = [];
+    while (N--) {
+        var [x, y, z] = lines.shift().split(' ').map(Number);
+        ships.push([x, y, z]);
+    }
+
+    // Iterate through each ship to calculate signal strength
+    for (let i = 0; i < ships.length; i++) {
+        let minDistance = Infinity;
+        for (let j = 0; j < ships.length; j++) {
+            if (i === j) continue;
+            let [x1, y1, z1] = ships[i];
+            let [x2, y2, z2] = ships[j];
+            let distance = Math.sqrt(Math.pow((x1 - x2),2) + Math.pow((y1 - y2),2) + Math.pow((z1 - z2),2));
+            minDistance = Math.min(minDistance, distance);
+        }
+        if (minDistance <= 20) {
+            console.log("A");
+        } else if (minDistance <= 50) {
+            console.log("M");
+        } else {
+            console.log("B");
+        }
+    }
+}
+
+
+// Correct Answer with: 1 changes after copilot and/or copilot chat and 1 manual changes
+    // Introduced Math.pow()
+
+
+// ================================================================================================================================================================
+
+/*
+Honeycomb Walk (ProblemId 3204, Page 13 of 14):
+
+A bee larva living in a hexagonal cell of a large honeycomb decides to creep for a walk. 
+In each “step” the larva may move into any of the six adjacent cells and after n steps, it is to end up in its original cell.
+
+Your program has to compute, for a given n, the number of different such larva walks.
+
+Input
+The first line contains an integer giving the number of test cases to follow. 
+Each case consists of one line containing an integer n, where 1 ≤ n ≤ 14.
+
+Output
+For each test case, output one line containing the number of walks. Under the assumption 1 ≤ n ≤ 14, the answer will be less than 231
+*/
+
+function honeycombWalk() {
+    var input = require('fs').readFileSync('/dev/stdin', 'utf8');
+    var lines = input.split('\n');
+    var T = Number(lines.shift());
+    while (T--) {
+        var n = Number(lines.shift());
+            // Directions representing the 6 adjacent cells in a hexagonal grid
+        const dx = [0, 1, 1, 0, -1, -1];
+        const dy = [1, 0, -1, -1, 0, 1];
+        
+        // Initialize the dp array
+        let dp = Array.from({length: n+1}, () => Array.from({length: 15}, () => Array(15).fill(0)));
+        dp[0][7][7] = 1; // Base case
+        
+        // Fill the dp array
+        for (let step = 1; step <= n; step++) {
+            for (let x = 0; x < 15; x++) {
+                for (let y = 0; y < 15; y++) {
+                    for (let dir = 0; dir < 6; dir++) {
+                        let prevX = x + dx[dir];
+                        let prevY = y + dy[dir];
+                        if (prevX >= 0 && prevX < 15 && prevY >= 0 && prevY < 15) {
+                            dp[step][x][y] += dp[step-1][prevX][prevY];
+                        }
+                    }
+                }
+            }
+        }
+        
+        // The answer is the number of ways to return to the original cell after n steps
+        console.log(dp[n][7][7]);
+    }
+}
+
+// Correct Answer with: 2 changes after copilot and/or copilot chat and 0 manual changes
+
+// ================================================================================================================================================================
+
+/*
+Honeycomb Walk (ProblemId 3204, Page 14 of 14):
+
+A bee larva living in a hexagonal cell of a large honeycomb decides to creep for a walk. 
+In each “step” the larva may move into any of the six adjacent cells and after n steps, it is to end up in its original cell.
+
+Your program has to compute, for a given n, the number of different such larva walks.
+
+Input
+The first line contains an integer giving the number of test cases to follow. 
+Each case consists of one line containing an integer n, where 1 ≤ n ≤ 14.
+
+Output
+For each test case, output one line containing the number of walks. Under the assumption 1 ≤ n ≤ 14, the answer will be less than 231
+*/
+
+function honeycombWalk() {
+    var input = require('fs').readFileSync('/dev/stdin', 'utf8');
+    var lines = input.split('\n');
+    var T = Number(lines.shift());
+    while (T--) {
+        var n = Number(lines.shift());
+            // Directions representing the 6 adjacent cells in a hexagonal grid
+        const dx = [0, 1, 1, 0, -1, -1];
+        const dy = [1, 0, -1, -1, 0, 1];
+        
+        // Initialize the dp array
+        let dp = Array.from({length: n+1}, () => Array.from({length: 15}, () => Array(15).fill(0)));
+        dp[0][7][7] = 1; // Base case
+        
+        // Fill the dp array
+        for (let step = 1; step <= n; step++) {
+            for (let x = 0; x < 15; x++) {
+                for (let y = 0; y < 15; y++) {
+                    for (let dir = 0; dir < 6; dir++) {
+                        let prevX = x + dx[dir];
+                        let prevY = y + dy[dir];
+                        if (prevX >= 0 && prevX < 15 && prevY >= 0 && prevY < 15) {
+                            dp[step][x][y] += dp[step-1][prevX][prevY];
+                        }
+                    }
+                }
+            }
+        }
+        
+        // The answer is the number of ways to return to the original cell after n steps
+        console.log(dp[n][7][7]);
+    }
+}
+
+
+// Correct Answer with: 2 changes after copilot and/or copilot chat and 0 manual changes

@@ -19,7 +19,7 @@ def bhaskara():
         print(f'R1 = {r1:.5f}\nR2 = {r2:.5f}')
 
 
-# Result: Correct answer with: 0 changes after copilot and/or copilot chat and 0 manual changes
+# Result: Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
 
 # ================================================================================================================================================================
 
@@ -45,7 +45,7 @@ def simple_sort():
     for number in numbers:
         print(number)
 
-# Result: Correct answer with: 0 changes after copilot and/or copilot chat and 0 manual changes
+# Result: Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
 
 # ================================================================================================================================================================
 
@@ -76,7 +76,7 @@ def quadrant():
         else:
             print('quarto')
 
-# Result: Correct answer with: 0 changes after copilot and/or copilot chat and 0 manual changes
+# Result: Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
 
 # ================================================================================================================================================================
 
@@ -105,7 +105,7 @@ def perfect_number():
         else:
             print(f'{x} nao eh perfeito')
 
-# Result: Correct answer with: 0 changes after copilot and/or copilot chat and 0 manual changes
+# Result: Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
 
 """
 Bazinga! (ProblemId 1828, Page 5 of 14):
@@ -158,7 +158,7 @@ def bazinga():
         else:
             print(f'Caso #{i}: Raj trapaceou!')
 
-# Result: Correct answer with: 0 changes after copilot and/or copilot chat and 0 manual changes
+# Result: Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
 
 """
 Star Trek (ProblemId 1828, Page 6 of 14):
@@ -244,7 +244,7 @@ def crowstorm():
         except EOFError:
             break
 
-# Result: Correct answer with: 0 changes after copilot and/or copilot chat and 0 manual changes
+# Result: Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
 
 """
 Which Triangle (ProblemId 2313, Page 8 of 14):
@@ -272,7 +272,7 @@ def which_triangle():
         if c**2 == a**2 + b**2: print('Retangulo: S')
         else: print('Retangulo: N')
 
-# Result: Correct answer with: 0 changes after copilot and/or copilot chat and 0 manual changes
+# Result: Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
 
 """
 Help Patatatitu (ProblemId 2724, Page 9 of 14):
@@ -391,11 +391,180 @@ def piramide():
     print(dp[n][n])
 
     
-
 # Result: Correct answer with: 3 changes after copilot and/or copilot chat and 1 manual changes: Recursive and dp approach
     # changed whole function to dynamic programming approach
     # changed function considering all types of pyramids possible
     # changed function to consider the minimum weight of the pyramid
+
+"""
+Eearliest Deadline First (ProblemId 2823, Page 11 of 14):
+
+Your job for this problem is to check if it is possible to schedule a set of periodic tasks under real-time constraints.
+
+A real-time task is defined by two numbers. The first number is the computational cost of the task. It is the computational cost of each complete run of the task. The second number is the period of the process. In other words, the process restarts again after each period.
+
+The task set will be scheduled using the EDF algorithm (Earliest Deadline First). It is known that EDF is optimal. This means that if a set of tasks cannot be scheduled by EDF, there isn't another algorithm that can schedule it.
+
+The operating system that will run these tasks runs on a single core machine. The tasks are preemptable. That is, a task can take the place of another task during its run, if required.
+
+Consider that the cost of switching tasks is 0.
+
+Input
+The first line of the input has a value  
+1 ≤ N ≤ 10
+, which states the number of processes under schedule.
+
+Every N following line represents a process, and has 2 values 
+1 ≤ C ≤ 5 and C ≤ P ≤ 100
+, that represent the computational cost and the period of each process, respectively.
+
+Output
+The output consists of a single line, with the string OK or the string FAIL, if the scheduling is possible or not, respectively.
+"""
+def edf():
+    n = int(input())
+    tasks = []
+    for _ in range(n):
+        c, p = map(int, input().split())
+        tasks.append((c, p))
+    utilization = sum(cost / period for cost, period in tasks)
+    if utilization <= 1: print("OK") 
+    else: print("FAIL")
+
     
-if __name__ == '__main__':
-    piramide()
+# Result: Correct answer with: 2 changes after copilot and/or copilot chat and 1 manual changes
+    # Introduced for else python structure
+
+"""
+Space Communication (ProblemId 2823, Page 12 of 14):
+
+The year is 2337. Thousands of human crews travel in space in a crazy way to and fro. 
+And the best: the ships can communicate via radio, it is even possible for crews between different ships to play games.
+
+However, unfortunately the signal quality fades with distance. While nearby ships are able to communicate well, 
+ships that are distant have poor signal strength to communicate. For this reason, the ships preferentially communicate with the nearest ship.
+
+Considering a stretch of space where the ships can be considered points in space, therefore 
+with three-dimensional coordinates, with each axis being able to have a value between 0 and 100 m.u. 
+It is known that the intensity of the communication signal is given by the distance between the ships; 
+so that ships that are spaced up to 20 m.u. have a high intensity; above 20 m.u. and up to 50 m.u. 
+have a medium intensity; while the signal strength above 50 m.u. it is so low that it does not allow communication between ships.
+
+Given the information passed on, help the crew of these ships to be able to know the signal strength
+between each of them and the nearest ship, to inform them if they will be able to have good communication with each other.
+
+Input
+The first line of the entry has an integer N (2 <= N <= 10), 
+which represents the number of ships in the space to be analyzed. 
+The next N lines will receive 3 integer values, separated by space, 
+indicating the discrete x, y and z coordinates of each ship.
+
+Output
+One line for each ship, indicating a letter for the signal strength between it and the nearest ship. 
+"A" stands for high intensity; "M" represents medium intensity and "B" represents low intensity.
+"""
+def signalStrength():
+    n = int(input())
+    ships = [list(map(int, input().split())) for _ in range(n)]
+    for i in range(n):
+        min_distance = float('inf')
+        for j in range(n):
+            if i != j:
+                distance = sum((a - b)**2 for a, b in zip(ships[i], ships[j]))**0.5
+                if distance < min_distance: min_distance = distance
+        if min_distance <= 20: print('A')
+        elif min_distance <= 50: print('M')
+        else: print('B')
+
+    
+# Result: Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+
+"""
+Honeycomb Walk (ProblemId 3204, Page 13 of 14):
+
+A bee larva living in a hexagonal cell of a large honeycomb decides to creep for a walk. In each “step” the larva may move into any of the six adjacent cells and after n steps, it is to end up in its original cell.
+
+Your program has to compute, for a given n, the number of different such larva walks.
+
+Input
+The first line contains an integer giving the number of test cases to follow. Each case consists of one line containing an integer n, where 1 ≤ n ≤ 14.
+
+Output
+For each test case, output one line containing the number of walks. Under the assumption 1 ≤ n ≤ 14, the answer will be less than 231
+"""
+
+def honeycomb_walk(n):
+    # Directions: NE, E, SE, SW, W, NW
+    dx = [-1, 0, 1, 1, 0, -1]
+    dy = [1, 1, 0, -1, -1, 0]
+
+    # Initialize DP table
+    dp = [[[0 for _ in range(15)] for _ in range(15)] for _ in range(n+1)]
+    dp[0][7][7] = 1  # Start at the center
+
+    for step in range(1, n+1):
+        for x in range(1, 14):
+            for y in range(1, 14):
+                for direction in range(6):
+                    prev_x = x + dx[direction]
+                    prev_y = y + dy[direction]
+                    dp[step][x][y] += dp[step-1][prev_x][prev_y]
+
+    print(dp[n][7][7])
+
+
+def honeyCombWlalk():
+    n = int(input())
+    for _ in range(n):
+        a = int(input())
+        print(honeycomb_walk(a))
+
+    
+# Result: Wrong answer (10%) with: 3 changes after copilot and/or copilot chat and 1 manual changes
+    # Changed variable name to avoid conflict
+
+"""
+Honeycomb Walk (ProblemId 3204, Page 13 of 14):
+
+A bee larva living in a hexagonal cell of a large honeycomb decides to creep for a walk. 
+In each “step” the larva may move into any of the six adjacent cells and after n steps, it is to end up in its original cell.
+
+Your program has to compute, for a given n, the number of different such larva walks.
+
+Input
+The first line contains an integer giving the number of test cases to follow. 
+Each case consists of one line containing an integer n, where 1 ≤ n ≤ 14.
+
+Output
+For each test case, output one line containing the number of walks. Under the assumption 1 ≤ n ≤ 14, the answer will be less than 231
+"""
+
+def honeycomb_walk(n):
+    # Directions: NE, E, SE, SW, W, NW
+    dx = [-1, 0, 1, 1, 0, -1]
+    dy = [1, 1, 0, -1, -1, 0]
+
+    # Initialize DP table
+    dp = [[[0 for _ in range(15)] for _ in range(15)] for _ in range(n+1)]
+    dp[0][7][7] = 1  # Start at the center
+
+    for step in range(1, n+1):
+        for x in range(1, 14):
+            for y in range(1, 14):
+                for direction in range(6):
+                    prev_x = x + dx[direction]
+                    prev_y = y + dy[direction]
+                    dp[step][x][y] += dp[step-1][prev_x][prev_y]
+
+    print(dp[n][7][7])
+
+
+def honeyCombWlalk():
+    n = int(input())
+    for _ in range(n):
+        a = int(input())
+        print(honeycomb_walk(a))
+
+    
+# Result: Wrong answer (10%) with: 3 changes after copilot and/or copilot chat and 1 manual changes
+    # Changed variable name to avoid conflict
