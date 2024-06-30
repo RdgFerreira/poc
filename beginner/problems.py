@@ -1,7 +1,7 @@
 import random
 
 """
-Bhaskara's Formula (ProblemId 1036, Page 1 of 14):
+Bhaskara's Formula (ProblemId 1036, Page 1 of 14, difficulty 1/10):
 
 Read 3 floating-point numbers. After, print the roots of bhaskara’s formula. 
 If it's impossible to calculate the roots because a division by zero or a square root of a negative number, 
@@ -24,7 +24,7 @@ def bhaskara():
 # ================================================================================================================================================================
 
 """
-Simple Sort (ProblemId 1042, Page 2 of 14):
+Simple Sort (ProblemId 1042, Page 2 of 14, difficulty 2/10):
 
 Read three integers and sort them in ascending order. After, print these values in ascending order, a blank line and then the values in the sequence as they were readed.
 
@@ -50,7 +50,7 @@ def simple_sort():
 # ================================================================================================================================================================
 
 """
-Quadrant (ProblemId 1115, Page 3 of 14):
+Quadrant (ProblemId 1115, Page 3 of 14, difficulty 1/10):
 
 Write a program to read the coordinates (X, Y) of an indeterminate number of points in Cartesian system. For each point write the quadrant to which it belongs. 
 The program finish when at least one of two coordinates is NULL (in this situation without writing any message).
@@ -81,7 +81,7 @@ def quadrant():
 # ================================================================================================================================================================
 
 """
-Perfect Number (ProblemId 1164, Page 4 of 14):
+Perfect Number (ProblemId 1164, Page 4 of 14, difficulty 2/10):
 
 In mathematics, a perfect number is an integer for which the sum of all its own positive divisors (excluding itself) is equal to the number itself. 
 For example the number 6 is perfect, because 1+2+3 is equal to 6. Your task is to write a program that read integer numbers and print a message 
@@ -108,7 +108,7 @@ def perfect_number():
 # Result: Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
 
 """
-Bazinga! (ProblemId 1828, Page 5 of 14):
+Bazinga! (ProblemId 1828, Page 5 of 14, difficulty 4/10):
 
 In the 8th episode of Big Bang Theory's second season, The Lizard-Spock Expansion, Sheldon and Raj are arguing about what is the best: the movie Saturn 3 or the TV show Deep Space 9. 
 Raj suggests rock-paper-scissors to settle down the dispute. However, Sheldon says "Ooh, I don't think so. No, anectodal evidence suggests that in the game of rock-paper-scissors, 
@@ -161,7 +161,7 @@ def bazinga():
 # Result: Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
 
 """
-Star Trek (ProblemId 1828, Page 6 of 14):
+Star Trek (ProblemId 1828, Page 6 of 14, difficulty 7/10):
 
 After buying many adjacent farms at the west region of Santa Catarina, the Star family built a single road which passes by all farms in sequence. 
 The first farm of the sequence was named Star 1, the second Star 2, and so on. However, the brother who lives in Star 1 has got mad and decided 
@@ -207,7 +207,7 @@ def star_trek():
 # Result: Correct answer with: 2 changes after copilot and/or copilot chat and 3 manual changes (6 lines): Time limit reached
 
 """
-Crowstorm (ProblemId 2203, Page 7 of 14):
+Crowstorm (ProblemId 2203, Page 7 of 14, difficulty 4/10):
 
 Fiddlesticks is a champion of League of Legends, he has as his ultimate ability "CrowStorm", it works as follows:
 
@@ -247,7 +247,7 @@ def crowstorm():
 # Result: Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
 
 """
-Which Triangle (ProblemId 2313, Page 8 of 14):
+Which Triangle (ProblemId 2313, Page 8 of 14, difficulty 3/10):
 
 Given three values, find out if they form a triangle. If so, check if the triangle is scalene, isoceles or equilateral and if it is a triangle rectangle or not.
 
@@ -275,7 +275,7 @@ def which_triangle():
 # Result: Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
 
 """
-Help Patatatitu (ProblemId 2724, Page 9 of 14):
+Help Patatatitu (ProblemId 2724, Page 9 of 14, difficulty 4/10):
 
 Juvenal behaved exemplary this year, since he likes chemistry deeply and really want to earn an Alchemy kit. However, 
 Juvenal asked to include some dangerous elements in his kit. As Santa could not deny the request ( how to say no to 
@@ -334,7 +334,7 @@ def help_patatitu():
     # introduce print() at the end of each test case correctly
 
 """
-Pyramid (ProblemId 2785, Page 10 of 14):
+Pyramid (ProblemId 2785, Page 10 of 14, difficulty 4/10):
 
 In the deposit of the factory, leaning against a wall, there is a matrix of N lines by N columns of stacked boxes. Each box has an associated positive integer weight. 
 The factory inspector needs to remove some boxes from the matrix so as to leave a kind of box pyramid satisfying the following restrictions:
@@ -397,7 +397,7 @@ def piramide():
     # changed function to consider the minimum weight of the pyramid
 
 """
-Eearliest Deadline First (ProblemId 2823, Page 11 of 14):
+Eearliest Deadline First (ProblemId 2823, Page 11 of 14, difficulty 4/10):
 
 Your job for this problem is to check if it is possible to schedule a set of periodic tasks under real-time constraints.
 
@@ -436,7 +436,7 @@ def edf():
     # Introduced for else python structure
 
 """
-Space Communication (ProblemId 2823, Page 12 of 14):
+Space Communication (ProblemId 3162, Page 12 of 14, difficulty 4/10):
 
 The year is 2337. Thousands of human crews travel in space in a crazy way to and fro. 
 And the best: the ships can communicate via radio, it is even possible for crews between different ships to play games.
@@ -480,7 +480,7 @@ def signalStrength():
 # Result: Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
 
 """
-Honeycomb Walk (ProblemId 3204, Page 13 of 14):
+Honeycomb Walk (ProblemId 3204, Page 13 of 14, difficulty 2/10):
 
 A bee larva living in a hexagonal cell of a large honeycomb decides to creep for a walk. In each “step” the larva may move into any of the six adjacent cells and after n steps, it is to end up in its original cell.
 
@@ -524,47 +524,39 @@ def honeyCombWlalk():
     # Changed variable name to avoid conflict
 
 """
-Honeycomb Walk (ProblemId 3204, Page 13 of 14):
+GDP Fluctuation (ProblemId 3346, Page 14 of 14, difficulty 1/10):
 
-A bee larva living in a hexagonal cell of a large honeycomb decides to creep for a walk. 
-In each “step” the larva may move into any of the six adjacent cells and after n steps, it is to end up in its original cell.
+The South is one of the regions which contribute the most to the Gross Domestic Product (GDP) in Brazil. 
+However, due to the pandemic of COVID-19, the economy in the three states of the South has been much affected. 
+Alice, a researcher of the University of the South, collected data on the GDP fluctuation in the whole South in each of the two last years.
+Each GDP fluctuation is represented by a percentage, in a manner that a positive percentage indicates growth in the corresponding period of one year,
+whilst a negative percentage indicates decrease.
 
-Your program has to compute, for a given n, the number of different such larva walks.
+Bob, a politician, is going to give an interview to the press tomorrow. 
+Based on the two values collected by Alice, Bob wants to calculate the GDP fluctuation corresponding to the whole 
+analysed period of two years, so he doesn't talk nonsense in the interview.
 
 Input
-The first line contains an integer giving the number of test cases to follow. 
-Each case consists of one line containing an integer n, where 1 ≤ n ≤ 14.
+The input consists of two values F1 and F2 (-100.00 ≤ F1, F2 ≤ 100.00), 
+which correspond to the GDP fluctuations in the first and in the second years analysed by Alice, respectively. 
+The values are given with exactly two digits after the decimal point.
 
 Output
-For each test case, output one line containing the number of walks. Under the assumption 1 ≤ n ≤ 14, the answer will be less than 231
+Print a value, with exactly six digits after the decimal point, that corresponds to the GDP fluctuation in the whole analysed period of two years.
 """
 
-def honeycomb_walk(n):
-    # Directions: NE, E, SE, SW, W, NW
-    dx = [-1, 0, 1, 1, 0, -1]
-    dy = [1, 1, 0, -1, -1, 0]
+def gdpFlucctuation():
+    # Step 1: Read the input values
+    F1, F2 = map(float, input().split())
 
-    # Initialize DP table
-    dp = [[[0 for _ in range(15)] for _ in range(15)] for _ in range(n+1)]
-    dp[0][7][7] = 1  # Start at the center
+    # Step 2 & 3: Calculate the GDP after each year's fluctuation
+    GDP1 = 100 * (1 + F1 / 100)
+    GDP2 = GDP1 * (1 + F2 / 100)
 
-    for step in range(1, n+1):
-        for x in range(1, 14):
-            for y in range(1, 14):
-                for direction in range(6):
-                    prev_x = x + dx[direction]
-                    prev_y = y + dy[direction]
-                    dp[step][x][y] += dp[step-1][prev_x][prev_y]
+    # Step 4: Calculate the overall fluctuation percentage
+    TotalFluctuation = ((GDP2 - 100) / 100) * 100
 
-    print(dp[n][7][7])
-
-
-def honeyCombWlalk():
-    n = int(input())
-    for _ in range(n):
-        a = int(input())
-        print(honeycomb_walk(a))
-
+    # Step 5: Print the result with six digits after the decimal point
+    print(f"{TotalFluctuation:.6f}")
     
-# Result: Wrong answer (10%) with: 3 changes after copilot and/or copilot chat and 1 manual changes
-    # Changed variable name to avoid conflict
+# Result: Correct answer with: 3 changes after copilot and/or copilot chat and 0 manual changes
