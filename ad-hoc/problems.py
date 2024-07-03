@@ -199,66 +199,70 @@ solution()
 
 
 """
-Sudoku (ProblemId 1383, Page 3 of 34):
+Bakugan (ProblemId 1419, Page 4 of 34, difficulty 5/10):
 
-The Sudoku puzzle spread quickly across the world, being the most popular hobby in the planet today. 
-Some people, however, fill the matrix incorrectly, breaking the rules. Your task is to write a 
-program that checks whether a filled matrix is a solution to the puzzle or not.
+Mark and Leti love to play with Bakugan balls. These balls are small plastic spheres with a tiny monster toy inside. 
+When dropped to the ground, a Bakugan ball pops open with an incredible sound, liberating a fearsome Bakugan monster. 
+Mark and Leti love to play with the toy monsters, but popping open the balls is also great fun.
 
-The matrix is a 9 x 9 matrix of integers. To be considered a solution to the puzzle, 
-each row and each column must contain all integer numbers between 1 and 9. Also, 
-if the matrix is partitioned in nine 3 x 3 sub-matrices (as shown below), 
-each one of them must also contain all numbers between 1 and 9. The following matrix is an 
-example of a solution to the puzzle.
+Each of them received a bag with Bakugan balls, and they invented a game to pop open the balls. 
+There are 10 different monsters, and for the game Mark and Leti associated each monster with a different integer from 1 to 10, 
+according to the monster’s ugliness. The game is composed of R rounds. At each round:
+
+Both players drop simultaneously a ball each;
+Each player accumulates a number of points coincident with the number associated with the monster liberated by her/his ball;
+The first (and only the first) player who liberates the same monster in three consecutive rounds earns 30 additional points; 
+if this condition happens in the same round for both players then nobody earns extra points.
+The winner of the game is the player who accumulates more points. Please help Mark and Leti announce the winner of the game!
 
 Input
-Several instances are given. The first line of the input contains n > 0, the number of matrices in the input. 
-The following lines describe n matrices. Each matrix is described by 9 lines. These lines contain 9 integers each.
+Each test case is described using three lines. The first line contains an integer 
+R representing the number of rounds of the game (1 ≤ R ≤ 10). The second line contains 
+R integers Mi indicating the monsters liberated by Mark at each turn (1 ≤ Mi ≤ 10 for 1 ≤ i ≤ R). 
+The third line contains R integers Li indicating the monsters liberated by Leti at each turn (1 ≤ Li ≤ 10, for 1 ≤ i ≤ R).
+
+The last test case is followed by a line containing one zero.
 
 Output
-For each instance, your program must print a line containing "Instancia k" , where k is the instance number. 
-In the second line, your program must print "SIM" (portuguese for yes) 
-if the given matrix is a solution to the puzzle, or "NAO" (portuguese for no) otherwise. 
-Print an empty line after each instance.
+For each test case output a line with a character representing the result of the game: 
+"M" (uppercase) if the winner is Mark, "L" (uppercase) if the winner is Leti, or "T" (uppercase) if there is a tie.
 """
+def bakugan():
+    while True:
+        R = int(input())
+        if R == 0:
+            break
+        Mark = list(map(int, input().split()))
+        Leti = list(map(int, input().split()))
+        print(who_won(R, Mark, Leti))
 
+def who_won(R, Mark, Leti):
+    Mark_points = Leti_points = 0
+    Mark_consecutive = Leti_consecutive = False
+    for i in range(R):
+        Mark_points += Mark[i]
+        Leti_points += Leti[i]
+        if i >= 2 and not(Mark_consecutive or Leti_consecutive):
+            isMark = Mark[i] == Mark[i - 1] == Mark[i - 2]
+            isLeti = Leti[i] == Leti[i - 1] == Leti[i - 2]
+            if isMark or isLeti:
+                if isMark:
+                    Mark_points += 30
+                    Mark_consecutive = True
+                if isLeti:
+                    Leti_points += 30
+                    Leti_consecutive = True
+                
+    if Mark_points > Leti_points:
+        return "M"
+    elif Leti_points > Mark_points:
+        return "L"
+    else:
+        return "T"
 
-def solution():
-    n = int(input())
-    for i in range(n):
-        matrix = [list(map(int, input().split())) for _ in range(9)]
-        print(f"Instancia {i+1}")
-        print("SIM" if is_valid_sudoku(matrix) else "NAO")
-        print()
+bakugan()
 
-
-def is_valid_sudoku(matrix):
-    for i in range(9):
-        if not is_valid_row(matrix[i]):
-            return False
-        if not is_valid_column(matrix, i):
-            return False
-    for i in range(0, 9, 3):
-        for j in range(0, 9, 3):
-            if not is_valid_submatrix(matrix, i, j):
-                return False
-    return True
-
-
-def is_valid_row(row):
-    return len(set(row)) == 9
-
-
-def is_valid_column(matrix, column):
-    return len(set(row[column] for row in matrix)) == 9
-
-
-def is_valid_submatrix(matrix, i, j):
-    return len(set(matrix[x][y] for x in range(i, i + 3) for y in range(j, j + 3))) == 9
-
-
-solution()
-
-# Result: Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+# Result: Correct answer with: 1 changes after copilot and/or copilot chat and 1 manual changes
+    # Correction when checking for consecutive monsters
 
 # ================================================================================================================================================================

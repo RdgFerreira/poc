@@ -1,0 +1,8 @@
+Copilot performs better when the solution is suggested throughout logic and data processing methods instead of one main function
+
+Copilot struggles with higher order and complex problem logic described with natural language
+
+Copilot captura bem as maneiras de resolver os problemas a partir do contexto de problemas anteriores
+
+Copilot chat produces more complex and detailed solutions with explanations, using the whole problem description as context
+

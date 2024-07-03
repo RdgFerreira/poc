@@ -234,79 +234,71 @@ sudoku();
 
 
 /*
-Sudoku (ProblemId 1383, Page 3 of 34):
+Bakugan (ProblemId 1419, Page 4 of 34, difficulty 5/10):
 
-The Sudoku puzzle spread quickly across the world, being the most popular hobby in the planet today. 
-Some people, however, fill the matrix incorrectly, breaking the rules. Your task is to write a 
-program that checks whether a filled matrix is a solution to the puzzle or not.
+Mark and Leti love to play with Bakugan balls. These balls are small plastic spheres with a tiny monster toy inside. 
+When dropped to the ground, a Bakugan ball pops open with an incredible sound, liberating a fearsome Bakugan monster. 
+Mark and Leti love to play with the toy monsters, but popping open the balls is also great fun.
 
-The matrix is a 9 x 9 matrix of integers. To be considered a solution to the puzzle, 
-each row and each column must contain all integer numbers between 1 and 9. Also, 
-if the matrix is partitioned in nine 3 x 3 sub-matrices (as shown below), 
-each one of them must also contain all numbers between 1 and 9. The following matrix is an 
-example of a solution to the puzzle.
+Each of them received a bag with Bakugan balls, and they invented a game to pop open the balls. 
+There are 10 different monsters, and for the game Mark and Leti associated each monster with a different integer from 1 to 10, 
+according to the monster’s ugliness. The game is composed of R rounds. At each round:
+
+Both players drop simultaneously a ball each;
+Each player accumulates a number of points coincident with the number associated with the monster liberated by her/his ball;
+The first (and only the first) player who liberates the same monster in three consecutive rounds earns 30 additional points; 
+if this condition happens in the same round for both players then nobody earns extra points.
+The winner of the game is the player who accumulates more points. Please help Mark and Leti announce the winner of the game!
 
 Input
-Several instances are given. The first line of the input contains n > 0, the number of matrices in the input. 
-The following lines describe n matrices. Each matrix is described by 9 lines. These lines contain 9 integers each.
+Each test case is described using three lines. The first line contains an integer 
+R representing the number of rounds of the game (1 ≤ R ≤ 10). The second line contains 
+R integers Mi indicating the monsters liberated by Mark at each turn (1 ≤ Mi ≤ 10 for 1 ≤ i ≤ R). 
+The third line contains R integers Li indicating the monsters liberated by Leti at each turn (1 ≤ Li ≤ 10, for 1 ≤ i ≤ R).
+
+The last test case is followed by a line containing one zero.
 
 Output
-For each instance, your program must print a line containing "Instancia k" , where k is the instance number. 
-In the second line, your program must print "SIM" (portuguese for yes) 
-if the given matrix is a solution to the puzzle, or "NAO" (portuguese for no) otherwise. 
-Print an empty line after each instance.
+For each test case output a line with a character representing the result of the game: 
+"M" (uppercase) if the winner is Mark, "L" (uppercase) if the winner is Leti, or "T" (uppercase) if there is a tie.
 */
-function hasAllNumbers(arr) {
-    const seen = new Set(arr);
-    for (let i = 1; i <= 9; i++) {
-        if (!seen.has(i)) return false;
-    }
-    return true;
-}
-
-function isValidSudoku(matrix) {
-    // Check rows
-    for (let i = 0; i < 9; i++) {
-        if (!hasAllNumbers(matrix[i])) return false;
-    }
-
-    // Check columns
-    for (let j = 0; j < 9; j++) {
-        const column = matrix.map(row => row[j]);
-        if (!hasAllNumbers(column)) return false;
-    }
-
-    // Check 3x3 sub-matrices
-    for (let block = 0; block < 9; block++) {
-        const subMatrix = [];
-        for (let i = Math.floor(block / 3) * 3; i < Math.floor(block / 3) * 3 + 3; i++) {
-            for (let j = (block % 3) * 3; j < (block % 3) * 3 + 3; j++) {
-                subMatrix.push(matrix[i][j]);
-            }
-        }
-        if (!hasAllNumbers(subMatrix)) return false;
-    }
-
-    return true;
-}
-
-function sudoku() {
+function bakugan() {
     const input = require('fs').readFileSync('/dev/stdin', 'utf8');
     const lines = input.split('\n').map(line => line.trim()).filter(line => line);
-    const n = parseInt(lines.shift(), 10);
     let i = 0;
-    for (let instance = 1; instance <= n; instance++) {
-        const matrix = [];
-        for (let j = 0; j < 9; j++) {
-            matrix.push(lines[i++].split(' ').map(Number));
+    while (lines[i] !== '0') {
+        const R = parseInt(lines[i++], 10);
+        const mark = lines[i++].split(' ').map(Number);
+        const leti = lines[i++].split(' ').map(Number);
+        let markPoints = 0;
+        let letiPoints = 0;
+        let markConsecutive = 0;
+        let letiConsecutive = 0;
+        let round = 0;
+        while (round < R) {
+            if (mark[round] === leti[round]) {
+                markConsecutive++;
+                letiConsecutive++;
+            } else {
+                markConsecutive = 0;
+                letiConsecutive = 0;
+            }
+            markPoints += mark[round];
+            letiPoints += leti[round];
+            if (markConsecutive === 3) {
+                markPoints += 30;
+                markConsecutive = 0;
+            }
+            if (letiConsecutive === 3) {
+                letiPoints += 30;
+                letiConsecutive = 0;
+            }
+            round++;
         }
-        console.log(`Instancia ${instance}`);
-        console.log(isValidSudoku(matrix) ? 'SIM' : 'NAO');
-        console.log();
+        console.log(markPoints === letiPoints ? 'T' : markPoints > letiPoints ? 'M' : 'L');
     }
-}
 
-sudoku();
+}
 // Correct answer with: 4 changes after copilot and/or copilot chat and 0 manual changes
 
 // ================================================================================================================
