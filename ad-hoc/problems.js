@@ -1,5 +1,5 @@
 /*
-    Formula 1 (ProblemId 1125, Page 1 of 34, difficulty 3/10):
+    1 - Formula 1 (ProblemId 1125, Page 1 of 34, difficulty 3/10):
 
     The Formula 1 season consists of a series of races, known as Grand Prix, organized by the International Federation of Automobile (FIA). 
     The results of each Grand Prix are combined to determine Pilots\' 
@@ -107,7 +107,7 @@ console.log(main(input));
 
 
 /*
-Start Grid (ProblemId 1228, Page 2 of 34, difficulty 3/10):
+2 - Start Grid (ProblemId 1228, Page 2 of 34, difficulty 3/10):
 
 Nlogonia will hold the sensational world final of the Formula 17 drivers championship. 
 Competitors line up at the start and compete for the race. You will have access to the 
@@ -155,7 +155,7 @@ function startGrid() {
 // ================================================================================================================
 
 /*
-Sudoku (ProblemId 1383, Page 3 of 34, difficulty 6/10):
+3 - Sudoku (ProblemId 1383, Page 3 of 34, difficulty 6/10):
 
 The Sudoku puzzle spread quickly across the world, being the most popular hobby in the planet today. 
 Some people, however, fill the matrix incorrectly, breaking the rules. Your task is to write a 
@@ -234,7 +234,7 @@ sudoku();
 
 
 /*
-Bakugan (ProblemId 1419, Page 4 of 34, difficulty 5/10):
+4 - Bakugan (ProblemId 1419, Page 4 of 34, difficulty 5/10):
 
 Mark and Leti love to play with Bakugan balls. These balls are small plastic spheres with a tiny monster toy inside. 
 When dropped to the ground, a Bakugan ball pops open with an incredible sound, liberating a fearsome Bakugan monster. 
@@ -300,5 +300,236 @@ function bakugan() {
 
 }
 // Correct answer with: 4 changes after copilot and/or copilot chat and 0 manual changes
+
+// ================================================================================================================
+
+/*
+5 - Sum of Two Squares (ProblemId 1558, Page 5 of 34, difficulty 5/10):
+
+Which integer numbers can be represented by a sum of two integer squares?
+
+That is the question that your program must respond!
+
+For example, the number 41 can be represented as (-4)2 + 52 = 41, but 7 cannot be represented in the same way.
+
+Input
+The input consists of several lines, each line contains an integer with absolute value less than or equal to 10000.
+
+Output
+For each line, print "YES" if the number can be represented by a sum of two integer squares, otherwise print "NO".
+*/
+function sumOfTwoSquares() {
+    const input = require('fs').readFileSync('/dev/stdin', 'utf8');
+    const lines = input.split('\n').map(line => line.trim()).filter(line => line);
+    lines.forEach(line => {
+        const n = parseInt(line, 10);
+        let found = false;
+        for (let a = 0; a * a <= n; a++) {
+            const b = Math.sqrt(n - a * a);
+            if (b === Math.floor(b)) {
+                found = true;
+                break;
+            }
+        }
+        console.log(found ? 'YES' : 'NO');
+    });
+}
+
+sumOfTwoSquares();
+
+// Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+
+// ================================================================================================================
+
+/*
+6 - Palíndrome (ProblemId 2285, Page 14 of 34, difficulty 6/10):
+
+Uma cadeia de caracteres é chamada de palíndrome se seqüência de caracteres da esquerda para a direita é igual à 
+seqüência de caracteres da direita para a esquerda (uma outra definição é que o primeiro caractere da cadeia deve 
+ser igual ao último caractere, o segundo caractere seja igual ao penúltimo caractere, o terceiro caractere seja 
+igual ao antepenúltimo caractere, e assim por diante). Por exemplo, as cadeias de caracteres ‘mim’, ‘axxa’ e ‘ananaganana’ 
+são exemplos de palíndromes.
+
+Se uma cadeia não é palíndrome, ela pode ser dividida em cadeias menores que são palíndromes. Por exemplo, a 
+cadeia ‘aaxyx’ pode ser dividida de quatro maneiras distintas, todas elas contendo apenas cadeias palíndromes: 
+{‘aa’, ‘xyx’}, {‘aa’, ‘x’, ‘y’, ‘x’}, {‘a’, ‘a’, ‘xyx’} e {‘a’, ‘a’, ‘x’, ‘y’, ‘x’}.
+
+Escreva um programa que determine qual o menor número de partes em que uma cadeia deve ser dividida de forma 
+que todas as partes sejam palíndromes.
+
+Entrada
+A entrada é constituída de vários conjuntos de teste. A primeira linha de um conjunto de testes contém um 
+inteiro N (1 ≤ N ≤ 2000) que indica o número de caracteres da cadeia . A segunda linha contém a cadeia de caracteres, 
+composta por letras minúsculas (de ‘a’ a ‘z’), sem espaços em branco. O final da entrada é indicado por N = 0.
+
+Saída
+Para cada conjunto de teste da entrada seu programa deve produzir três linhas na saída. 
+A primeira linha deve conter um identificador do conjunto de teste, no formato 
+“Teste n”, onde n é numerado a partir de 1. A segunda linha deve conter um inteiro indicando o 
+menor número de partes que a cadeia de entrada deve ser dividida de forma que todas as partes sejam palíndromes. 
+A terceira linha deve ser deixada em branco. O formato mostrado no exemplo de saída abaixo deve ser seguido rigorosamente.
+*/
+function solvePalindromeProblem() {
+    const input = require('fs').readFileSync('/dev/stdin', 'utf8');
+    const lines = input.trim().split('\n');
+    let testCaseNumber = 1;
+    let index = 0;
+
+    while (index < lines.length) {
+        const N = parseInt(lines[index]);
+        if (N === 0) break;
+        const str = lines[index + 1];
+        index += 2;
+
+        const dp = new Array(N).fill(Infinity);
+        const isPalindrome = Array.from({ length: N }, () => new Array(N).fill(false));
+
+        // Fill the isPalindrome table
+        for (let i = 0; i < N; i++) {
+            isPalindrome[i][i] = true;
+        }
+        for (let length = 2; length <= N; length++) {
+            for (let i = 0; i <= N - length; i++) {
+                const j = i + length - 1;
+                if (length === 2) {
+                    isPalindrome[i][j] = (str[i] === str[j]);
+                } else {
+                    isPalindrome[i][j] = (str[i] === str[j] && isPalindrome[i + 1][j - 1]);
+                }
+            }
+        }
+
+        // Fill the dp table
+        for (let i = 0; i < N; i++) {
+            if (isPalindrome[0][i]) {
+                dp[i] = 1;
+            } else {
+                for (let j = 0; j < i; j++) {
+                    if (isPalindrome[j + 1][i]) {
+                        dp[i] = Math.min(dp[i], dp[j] + 1);
+                    }
+                }
+            }
+        }
+
+        console.log(`Teste ${testCaseNumber}`);
+        console.log(dp[N - 1]);
+        console.log('');
+
+        testCaseNumber++;
+    }
+}
+
+solvePalindromeProblem();
+
+// Correct answer with: 2 changes after copilot and/or copilot chat and 0 manual changes
+
+// ================================================================================================================
+/*
+7 - Palíndrome (ProblemId 2285, Page 14 of 34, difficulty 6/10):
+
+*/
+
+// Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+
+// ================================================================================================================
+
+// ================================================================================================================
+/*
+Palíndrome (ProblemId 2285, Page 14 of 34, difficulty 6/10):
+
+*/
+
+// Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+
+// ================================================================================================================
+
+// ================================================================================================================
+/*
+Palíndrome (ProblemId 2285, Page 14 of 34, difficulty 6/10):
+
+*/
+
+// Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+
+// ================================================================================================================
+
+// ================================================================================================================
+/*
+Palíndrome (ProblemId 2285, Page 14 of 34, difficulty 6/10):
+
+*/
+
+// Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+
+// ================================================================================================================
+
+// ================================================================================================================
+/*
+Palíndrome (ProblemId 2285, Page 14 of 34, difficulty 6/10):
+
+*/
+
+// Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+
+// ================================================================================================================
+
+// ================================================================================================================
+/*
+Palíndrome (ProblemId 2285, Page 14 of 34, difficulty 6/10):
+
+*/
+
+// Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+
+// ================================================================================================================
+
+// ================================================================================================================
+/*
+Palíndrome (ProblemId 2285, Page 14 of 34, difficulty 6/10):
+
+*/
+
+// Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+
+// ================================================================================================================
+
+// ================================================================================================================
+/*
+Palíndrome (ProblemId 2285, Page 14 of 34, difficulty 6/10):
+
+*/
+
+// Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+
+// ================================================================================================================
+
+// ================================================================================================================
+/*
+Palíndrome (ProblemId 2285, Page 14 of 34, difficulty 6/10):
+
+*/
+
+// Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+
+// ================================================================================================================
+
+// ================================================================================================================
+/*
+Palíndrome (ProblemId 2285, Page 14 of 34, difficulty 6/10):
+
+*/
+
+// Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+
+// ================================================================================================================
+
+// ================================================================================================================
+/*
+Palíndrome (ProblemId 2285, Page 14 of 34, difficulty 6/10):
+
+*/
+
+// Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
 
 // ================================================================================================================

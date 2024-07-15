@@ -1,5 +1,5 @@
 """
-Formula 1 (ProblemId 1125, Page 1 of 34, difficulty 3/10):
+1 - Formula 1 (ProblemId 1125, Page 1 of 34, difficulty 3/10):
 
 The Formula 1 season consists of a series of races, known as Grand Prix, organized by the International Federation of Automobile (FIA). 
 The results of each Grand Prix are combined to determine Pilots\' 
@@ -83,7 +83,7 @@ read_and_process_input()
 # ================================================================================================================================================================
 
 """
-Start Grid (ProblemId 1228, Page 2 of 34, difficulty 3/10):
+2- Start Grid (ProblemId 1228, Page 2 of 34, difficulty 3/10):
 
 Nlogonia will hold the sensational world final of the Formula 17 drivers championship. 
 Competitors line up at the start and compete for the race. You will have access to the 
@@ -133,7 +133,7 @@ main()
 # ================================================================================================================================================================
 
 """
-Sudoku (ProblemId 1383, Page 3 of 34, difficulty 6/10):
+3- Sudoku (ProblemId 1383, Page 3 of 34, difficulty 6/10):
 
 The Sudoku puzzle spread quickly across the world, being the most popular hobby in the planet today. 
 Some people, however, fill the matrix incorrectly, breaking the rules. Your task is to write a 
@@ -199,7 +199,7 @@ solution()
 
 
 """
-Bakugan (ProblemId 1419, Page 4 of 34, difficulty 5/10):
+4 - Bakugan (ProblemId 1419, Page 4 of 34, difficulty 5/10):
 
 Mark and Leti love to play with Bakugan balls. These balls are small plastic spheres with a tiny monster toy inside. 
 When dropped to the ground, a Bakugan ball pops open with an incredible sound, liberating a fearsome Bakugan monster. 
@@ -264,5 +264,268 @@ bakugan()
 
 # Result: Correct answer with: 1 changes after copilot and/or copilot chat and 1 manual changes
     # Correction when checking for consecutive monsters
+
+# ================================================================================================================================================================
+
+
+"""
+5- Sum of Two Squares (ProblemId 1558, Page 5 of 34, difficulty 5/10):
+
+Which integer numbers can be represented by a sum of two integer squares?
+
+That is the question that your program must respond!
+
+For example, the number 41 can be represented as (-4)2 + 52 = 41, but 7 cannot be represented in the same way.
+
+Input
+The input consists of several lines, each line contains an integer with absolute value less than or equal to 10000.
+
+Output
+For each line, print "YES" if the number can be represented by a sum of two integer squares, otherwise print "NO".
+"""
+def sum_of_two_squares():
+    while True:
+        try:
+            n = int(input())
+            if n < 0:
+                print("NO")
+            else: print("YES" if is_sum_of_two_squares(n) else "NO")
+        except EOFError:
+            break
+
+def is_sum_of_two_squares(n):
+    for i in range(int(n ** 0.5) + 1):
+        if (n - i ** 2) ** 0.5 % 1 == 0:
+            return True
+    return False
+
+sum_of_two_squares()
+
+# Result: Correct answer with: 1 changes after copilot and/or copilot chat and 1 manual changes
+    # Checking for negative n values
+
+# ================================================================================================================================================================
+
+"""
+6 - Palíndrome (ProblemId 2285, Page 14 of 34, difficulty 6/10):
+
+Uma cadeia de caracteres é chamada de palíndrome se seqüência de caracteres da esquerda para a direita é igual à 
+seqüência de caracteres da direita para a esquerda (uma outra definição é que o primeiro caractere da cadeia deve 
+ser igual ao último caractere, o segundo caractere seja igual ao penúltimo caractere, o terceiro caractere seja 
+igual ao antepenúltimo caractere, e assim por diante). Por exemplo, as cadeias de caracteres ‘mim’, ‘axxa’ e ‘ananaganana’ 
+são exemplos de palíndromes.
+
+Se uma cadeia não é palíndrome, ela pode ser dividida em cadeias menores que são palíndromes. Por exemplo, a 
+cadeia ‘aaxyx’ pode ser dividida de quatro maneiras distintas, todas elas contendo apenas cadeias palíndromes: 
+{‘aa’, ‘xyx’}, {‘aa’, ‘x’, ‘y’, ‘x’}, {‘a’, ‘a’, ‘xyx’} e {‘a’, ‘a’, ‘x’, ‘y’, ‘x’}.
+
+Escreva um programa que determine qual o menor número de partes em que uma cadeia deve ser dividida de forma 
+que todas as partes sejam palíndromes.
+
+Entrada
+A entrada é constituída de vários conjuntos de teste. A primeira linha de um conjunto de testes contém um 
+inteiro N (1 ≤ N ≤ 2000) que indica o número de caracteres da cadeia . A segunda linha contém a cadeia de caracteres, 
+composta por letras minúsculas (de ‘a’ a ‘z’), sem espaços em branco. O final da entrada é indicado por N = 0.
+
+Saída
+Para cada conjunto de teste da entrada seu programa deve produzir três linhas na saída. 
+A primeira linha deve conter um identificador do conjunto de teste, no formato 
+“Teste n”, onde n é numerado a partir de 1. A segunda linha deve conter um inteiro indicando o 
+menor número de partes que a cadeia de entrada deve ser dividida de forma que todas as partes sejam palíndromes. 
+A terceira linha deve ser deixada em branco. O formato mostrado no exemplo de saída abaixo deve ser seguido rigorosamente.
+"""
+def min_parts(string):
+    n = len(string)
+    dp = [0] * n
+    is_palindrome = [[False] * n for _ in range(n)]
+
+    # Fill the is_palindrome table
+    for i in range(n):
+        is_palindrome[i][i] = True
+    for length in range(2, n + 1):
+        for i in range(n - length + 1):
+            j = i + length - 1
+            if length == 2:
+                is_palindrome[i][j] = (string[i] == string[j])
+            else:
+                is_palindrome[i][j] = (string[i] == string[j]) and is_palindrome[i + 1][j - 1]
+
+    # Fill the dp table
+    for i in range(n):
+        if is_palindrome[0][i]:
+            dp[i] = 0
+        else:
+            dp[i] = float('inf')
+            for j in range(i):
+                if is_palindrome[j + 1][i]:
+                    dp[i] = min(dp[i], dp[j] + 1)
+
+    return dp[-1] + 1
+
+def palindrome():
+    import sys
+    input = sys.stdin.read
+    data = input().strip().split('\n')
+    
+    test_case = 0
+    i = 0
+    while i < len(data):
+        N = int(data[i])
+        if N == 0:
+            break
+        test_case += 1
+        string = data[i + 1]
+        print(f"Teste {test_case}")
+        print(min_parts(string))
+        print()
+        i += 2
+
+if __name__ == "__main__":
+    palindrome()
+
+# Result: Correct answer with: 3 changes after copilot and/or copilot chat and 0 manual changes
+
+# ================================================================================================================================================================
+
+"""
+7 - Palíndrome (ProblemId 2285, Page 14 of 34, difficulty 6/10):
+"""
+
+# Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+
+# ================================================================================================================================================================
+
+"""
+Palíndrome (ProblemId 2285, Page 14 of 34, difficulty 6/10):
+"""
+
+# Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+
+# ================================================================================================================================================================
+
+
+"""
+Palíndrome (ProblemId 2285, Page 14 of 34, difficulty 6/10):
+"""
+
+# Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+
+# ================================================================================================================================================================
+
+
+"""
+Palíndrome (ProblemId 2285, Page 14 of 34, difficulty 6/10):
+"""
+
+# Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+
+# ================================================================================================================================================================
+
+
+"""
+Palíndrome (ProblemId 2285, Page 14 of 34, difficulty 6/10):
+"""
+
+# Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+
+# ================================================================================================================================================================
+
+
+"""
+Palíndrome (ProblemId 2285, Page 14 of 34, difficulty 6/10):
+"""
+
+# Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+
+# ================================================================================================================================================================
+
+
+"""
+Palíndrome (ProblemId 2285, Page 14 of 34, difficulty 6/10):
+"""
+
+# Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+
+# ================================================================================================================================================================
+
+
+
+"""
+Palíndrome (ProblemId 2285, Page 14 of 34, difficulty 6/10):
+"""
+
+# Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+
+# ================================================================================================================================================================
+
+
+"""
+Palíndrome (ProblemId 2285, Page 14 of 34, difficulty 6/10):
+"""
+
+# Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+
+# ================================================================================================================================================================
+
+
+"""
+Palíndrome (ProblemId 2285, Page 14 of 34, difficulty 6/10):
+"""
+
+# Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+
+# ================================================================================================================================================================
+
+
+"""
+Palíndrome (ProblemId 2285, Page 14 of 34, difficulty 6/10):
+"""
+
+# Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+
+# ================================================================================================================================================================
+
+
+"""
+Palíndrome (ProblemId 2285, Page 14 of 34, difficulty 6/10):
+"""
+
+# Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+
+# ================================================================================================================================================================
+
+
+"""
+Palíndrome (ProblemId 2285, Page 14 of 34, difficulty 6/10):
+"""
+
+# Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+
+# ================================================================================================================================================================
+
+
+"""
+Palíndrome (ProblemId 2285, Page 14 of 34, difficulty 6/10):
+"""
+
+# Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+
+# ================================================================================================================================================================
+
+
+"""
+Palíndrome (ProblemId 2285, Page 14 of 34, difficulty 6/10):
+"""
+
+# Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+
+# ================================================================================================================================================================
+
+
+"""
+Palíndrome (ProblemId 2285, Page 14 of 34, difficulty 6/10):
+"""
+
+# Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
 
 # ================================================================================================================================================================
