@@ -426,9 +426,63 @@ solvePalindromeProblem();
 
 // ================================================================================================================
 /*
-7 - Palíndrome (ProblemId 2285, Page 14 of 34, difficulty 6/10):
+7 - Pão a Metro (ProblemId 2329, Page 15 of 34, difficulty 6/10):
 
+Pão a metro é um tipo de sanduíche gigante que é uma excelente opção de lanche para torneios de programação, embora a experiência já tenha mostrado que o 
+oferecimento de sanduiches pode gerar reclamação dos competidores. Outro grande problema é que algumas pessoas são mais gulosas que outras e, dessa maneira, 
+acabam pegando pedaços maiores que os pedaços dos outros. Para a ﬁnal da OBI, a coordenação estava pensando em providenciar pão a metro para os competidores, 
+porém tais problemas os ﬁzeram recuar na idéia.
+
+Embora a idéia tenha sido momentaneamente abandonada, uma idéia simples surgiu: cortar previamente o pão em fatias de tamanho iguais e distribuí-las entre as 
+pessoas. O único problema com tal idéia é que se o número de pessoas for muito grande, ﬁca impraticável ter apenas um pão. Por exemplo, se quiséssemos que 
+1.000 pessoas recebam 20 centímetros de sanduíche, seria necessário um sanduíche de 20.000 centímetros, ou 200 metros!
+
+Alguém levantou a seguinte hipótese: se houvesse N pessoas e fossem encomendados K sanduíches de empresas diferentes, cada qual com uma determinada metragem 
+(tamanho) Mi (1 ≤ i ≤ K), seria possível retirar desses pães N fatias de mesmo tamanho, possivelmente sobrando partes não utilizadas. A questão seria: qual 
+o tamanho inteiro máximo que essas fatias poderão ter?
+
+Por exemplo, se tivermos K = 4, com os tamanhos (em centímetros) M1 = 120, M2 = 89, M3 = 230 e M4 = 177 e N = 10, podemos retirar N fatias iguais de tamanho 
+máximo 57, pois assim conseguimos 2 fatias no primeiro pão, 1 no segundo, 4 no terceiro e 3 no quarto, totalizando as 10 fatias necessárias. Se tentarmos 
+cortar fatias de tamanho 58, só será possível obter 3 fatias do terceiro pão, totalizando 9 e, portanto, 57 é realmente o melhor que podemos obter. 
+Note que não podemos usar duas ou mais fatias menores de diferentes pães para formarmos uma fatia do tamanho selecionado. (ﬁcaria muito deselegante dar um lanche recortado às pessoas).
+
+Escreva um programa que, dados os tamanhos de pão disponíveis (em centímetros) e a quantidade de pessoas a serem atendidas, 
+retorne o tamanho inteiro máximo (em centímetros) da fatia que pode ser cortada de maneira a atender todas as pessoas.
+
+Entrada
+A entrada contém um único conjunto de testes, que deve ser lido do dispositivo de entrada padrão (normalmente o teclado). 
+A primeira linha da entrada contém um inteiro N que indica a quantidade pessoas (1 ≤ N ≤ 10.000). A segunda linha contém um inteiro K (1 ≤ K ≤ 10.000) 
+que é a quantidade de sanduíches disponível. Na terceira linha há K inteiros M (1 ≤ M ≤ 10.000) separados por um espaço em branco representando o tamanho de cada pão.
+
+Saída
+Seu programa deve imprimir, na saída padrão, uma única linha, contendo o tamanho inteiro máximo da fatia que pode ser cortada.
 */
+function solvePaoAMetro() {
+    const input = require('fs').readFileSync('/dev/stdin', 'utf8');
+    const lines = input.trim().split('\n');
+    const N = parseInt(lines[0], 10);
+    const K = parseInt(lines[1], 10);
+    const M = lines[2].split(' ').map(Number);
+    let maxSlice = 0;
+    let left = 1;
+    let right = Math.max(...M);
+    while (left <= right) {
+        const mid = Math.floor((left + right) / 2);
+        let slices = 0;
+        for (let i = 0; i < K; i++) {
+            slices += Math.floor(M[i] / mid);
+        }
+        if (slices >= N) {
+            maxSlice = mid;
+            left = mid + 1;
+        } else {
+            right = mid - 1;
+        }
+    }
+    console.log(maxSlice);
+}
+
+solvePaoAMetro();
 
 // Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
 
@@ -436,21 +490,102 @@ solvePalindromeProblem();
 
 // ================================================================================================================
 /*
-Palíndrome (ProblemId 2285, Page 14 of 34, difficulty 6/10):
+8 - Fault Detector (ProblemId 2682, Page 22 of 34, difficulty 5/10):
+There is a machine, that produces an increasing sequence of numbers. That is, every number of this sequence is larger than its predecessor.
 
+However, this machine is starting to break. When it starts, everything is OK. However, after some time, it starts producing wrong results.
+
+Your task is, whenever the machine produces the first wrong number or if it turns off, ignore all following results and produce the 
+next smallest valid number.
+
+Since we are just checking the machine, we cannot turn it off. We have to wait it turn it of on its own. That is, we must keep reading 
+numbers until the machine turns of on its own.
+
+Input
+The input consists of 0 < N < 104 lines, and ends with EOF.
+
+Each line consists of a single integer 0 < X < 230.
+
+Output
+A single line, with a single integer Y, the solution for the problem.
 */
 
-// Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+const fs = require('fs');
+
+// Read input from standard input
+const input = fs.readFileSync('/dev/stdin', 'utf8').trim().split('\n').map(Number);
+
+let lastValidNumber = input[0];
+
+for (let i = 1; i < input.length; i++) {
+    if (input[i] > lastValidNumber) {
+        lastValidNumber = input[i];
+    } else {
+        break;
+    }
+}
+
+console.log(lastValidNumber + 1);
+
+// Correct answer with: 2 changes after copilot and/or copilot chat and 0 manual changes
 
 // ================================================================================================================
 
 // ================================================================================================================
 /*
-Palíndrome (ProblemId 2285, Page 14 of 34, difficulty 6/10):
+9 - Seven (ProblemId 2590, Page 21 of 34, difficulty 7/10):
+Chagas is a boy who loves to eat boiled eggs, but he hates math. He hates exponentiation and for some reason 
+does not correctly calculate operations involving the number 7. Knowing this, his friend Caco decided to
+make a challenge: he wants Chagas to calculate the Nth power of 7 and say the last digit of that power. 
+If Chagas hit all The questions, I would get 7 boiled eggs. For example, where N = 2, the result would be 9, 
+because 7^2 = 49. The problem is that, depending on the value of N, the result of exponentiation can be a very 
+large number. Without ideas, Chagas decided to ask for his help.
 
+Write a program that, given a number, calculate the last digit of the value of 7 raised to that number.
+
+Input
+The entry consists of several instances. The first line of the entry contains an integer T indicating the number of instances.
+Each instance is composed of only one row, which contains the integer N (0 ≤ N ≤ 10^9).
+
+Output
+For each instance in the entry, print a line containing an integer, the last digit of 7^N.
 */
 
-// Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+function lastDigitOf7Power(N) {
+    const cycle = [7, 9, 3, 1];
+    if (N === 0) return 1;
+    const position = (N - 1) % 4;
+    return cycle[position];
+}
+
+function processInput() {
+    const readline = require('readline');
+    const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout,
+        terminal: false
+    });
+
+    let T;
+    let count = 0;
+
+    rl.on('line', (line) => {
+        if (typeof T === 'undefined') {
+            T = parseInt(line.trim(), 10);
+        } else {
+            const N = parseInt(line.trim(), 10);
+            console.log(lastDigitOf7Power(N));
+            count++;
+            if (count === T) {
+                rl.close();
+            }
+        }
+    });
+}
+
+processInput();
+
+// Time Limit Exceeded with: 6 changes after copilot and/or copilot chat and 0 manual changes
 
 // ================================================================================================================
 
