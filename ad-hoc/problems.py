@@ -546,7 +546,360 @@ if __name__ == "__main__":
 
 
 """
-Palíndrome (ProblemId 2285, Page 14 of 34, difficulty 6/10):
+10 - Semente (ProblemId 2452 Semente, Page 19 of 34, difficulty 7/10):
+
+Um experimento biológico utiliza uma fita de papel branco especial, na qual algumas gotas de um reagente são 
+colocadas em posições específicas. Inicialmente a gota de reagente faz com que o papel se torne preto na posição em que foi colocada. 
+A cada dia o reagente se propaga pelo papel, em todas as direções, com velocidade de 1 posição por dia, colorindo a 
+região em que o reagente se propagou. A figura abaixo mostra um experimento com uma fita de 13 posições, com três gotas 
+de reagente inicialmente, colocadas nas posições 2, 6 e 13 (a posição 1 é a primeira mais à esquerda da fita). Ao final do 
+terceiro dia, a fita está completamente tomada pelo reagente.
+
+
+
+Você foi contratado para escrever um programa que, dados o comprimento da fita de papel e as posições das gotas de 
+reagente no início do experimento, determine quantos dias serão necessários para a fita de papel ficar completamente tomada pelo reagente.
+
+Entrada
+A primeira linha contém dois inteiros F (1 ≤ F ≤ 100000) e R (1 ≤ R ≤ 1000), indicando respectivamente o comprimento da 
+fita de papel, em números de posições, e o número de gotas no início do experimento. A segunda linha contém R inteiros, 
+indicando as posições das gotas de reagente, que são dadas em ordem crescente.
+
+Saída
+Seu programa deve produzir uma única linha, contendo um único inteiro, o número de dias necessários para que a fita de papel 
+fique totalmente tomada pelo reagente.
+"""
+from collections import deque
+
+def dias_para_propagacao(F, R, gotas):
+    fita = [0] * F
+    fila = deque()
+    
+    # Marcar as posições iniciais das gotas
+    for gota in gotas:
+        fita[gota - 1] = 1
+        fila.append(gota - 1)
+    
+    dias = 0
+    
+    # Direções de propagação (esquerda e direita)
+    direcoes = [-1, 1]
+    
+    while fila:
+        dias += 1
+        for _ in range(len(fila)):
+            pos = fila.popleft()
+            for d in direcoes:
+                nova_pos = pos + d
+                if 0 <= nova_pos < F and fita[nova_pos] == 0:
+                    fita[nova_pos] = 1
+                    fila.append(nova_pos)
+    
+    return dias - 1
+
+# Leitura da entrada
+F, R = map(int, input().split())
+gotas = list(map(int, input().split()))
+
+# Calcular e imprimir o número de dias
+print(dias_para_propagacao(F, R, gotas))
+
+# Correct answer with: 9 changes after copilot and/or copilot chat and 0 manual changes
+    # Solicitar solução ao copilot no mesmo idioma do problema melhora sua performance
+
+# ================================================================================================================================================================
+
+
+"""
+11 - Elevator (ProblemId 2378, Page 17 of 34, difficulty 2/10):
+The Scaling with Big Comfort (SBC) it's a traditional company, with more than 50 years working on the production of elevators. 
+ll SBC's projects follow the most stringent safety standards, but unfortunately a series of accidents involving their elevators 
+ruined the company's reputation.
+
+By studying the accident, the company's engineers found that in several cases, the accident was caused by excess passengers 
+in the elevator. So, SBC decided to monitor more strictly the use of their elevators: they installed a sensor in each door to 
+count how many people get in and out in each floor. They have the records of an entire day of the elevator (that always start empty). 
+They know that people are well polite and always let all the passenges go out before going inside it, yet they are having difficulties 
+to decide if the maximum capacity was exceeded or not.
+
+Your job is to write a program that, given a sequence of sensor readings and the maximum capacity of the elevator, determine 
+if it was exceeded at any point.
+
+Input
+The first input line contain two integers, N and C, indicating the number of sensor readings and the maximum capacity of 
+the elevator, respectively (1 ≤ N ≤ 1000 and 1 ≤ C ≤ 1000). The next N lines contain, each one, the sensor reading count. 
+Each one have two integers, S and E, indicating how many people came out and how much entered in that floor, 
+respectively (0 ≤ S ≤ 1000 and 0 ≤ E ≤ 1000).
+
+Output
+Your program must print a single line containing the character 'S' if the capacity was exceeded at any moment, or 'N' otherwise.
+"""
+def elevator():
+    N, C = map(int, input().split())
+    passengers = 0
+    for _ in range(N):
+        S, E = map(int, input().split())
+        passengers += E - S
+        if passengers > C:
+            print("S")
+            return
+    print("N")
+
+if __name__ == "__main__":
+    elevator()
+
+# Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+
+# ================================================================================================================================================================
+
+"""
+12 - Towers of Hanoi (ProblemId 2251, Page 13 of 34, difficulty 3/10):
+The puzzle Towers of Hanoi is very old and known, consisting of a set of N disks of different sizes and three vertical pins, 
+in which the disks can be fitted.
+
+Each pin may contain a stack with any number of disks, since each disk is not placed above the other smaller sized disc. 
+The initial configuration consists of all disks on pin 1. The aim of the puzzle is to move all disks to one of the other pins,
+ always obeying the restriction not put a disc on another smaller.
+
+An algorithm to solve this problem is the following.
+
+procedure Hanoi(N, Orig, Dest, Temp)
+
+   if N = 1 so
+
+      move the smaller disc Orig pin for pin Dest;
+
+   if no
+
+      Hanoi(N-1, Orig, Temp, Dest);
+
+      moving the Nth lower disc Src Dest pin for pin;
+
+      Hanoi(N-1, Temp, Dest, Orig);
+
+   end-if
+
+end
+
+Your task is to write a program to determine how many moves to change a disk from a pin to the other will 
+be executed by the above algorithm to solve the puzzle.
+
+Input
+The input has multiple test sets. Each test set consists of a single line containing a 
+single integer N (0 ≤ N ≤ 30), indicating the number of disks. The end of input is indicated by N = 0.
+
+Output
+For each test set, your program must write three lines in the output. 
+The first line should contain a test set identifier in the format "Teste n", where n is 
+sequentially numbered from 1. The second line should contain the number of movements that 
+are performed by the given algorithm to solve the problem of Torres Hanoi with N disks. The 
+third line should be left blank. The spelling shown in Example output below should be followed strictly.
+"""
+def hanoi_moves(N):
+    if N == 0:
+        return 0
+    return 2 ** N - 1
+
+def main():
+    import sys
+    input = sys.stdin.read
+    data = input().strip().split()
+    
+    test_case = 1
+    for line in data:
+        N = int(line)
+        if N == 0:
+            break
+        moves = hanoi_moves(N)
+        print(f"Teste {test_case}")
+        print(moves)
+        print()
+        test_case += 1
+
+if __name__ == "__main__":
+    main()
+
+# Correct answer with: 2 changes after copilot and/or copilot chat and 0 manual changes
+
+# ================================================================================================================================================================
+
+
+"""
+13 - Telescópio (ProblemId 2386, Page 17 of 34, difficulty 3/10):
+Telescópios são instrumentos que auxiliam a observação do céu, melhorando e aumentando o aspecto das estrelas, 
+planetas e outros objetos brilhantes. Existem diversos tipos de telescópios, sendo os tipos mais comuns os de 
+lentes objetivas (refratores) e os de espelhos (refletores).
+
+A maneira como os telescópios melhoram a nossa percepção dos astros no céu é aumentando a quantidade de luz 
+captada que chega aos nossos olhos. Toda luz que entra pelos nossos olhos entra por um orifício chamado pupila. 
+Tal controla a quantidade de luz que entra nos olhos, aumentando o diâmetro quando o ambiente está escuro 
+(e portanto precisamos obter mais luz para identificar os objetos) e diminuindo quando o ambiente está claro. 
+Num ambiente muito escuro, a pupila pode atingir um diâmetro de 8 mm.
+
+Cada objeto celeste (estrela, planeta, nebulosa, etc) emite uma quantidade de luz (fótons) que é homogeneamente 
+distribuída quando chega na Terra. Por exemplo, a estrela A emite luz que pode ser captada a um fluxo de 40.000 
+fótons por segundo por milímetro quadrado. Isso é, a cada segundo, é possível captar 40.000 fótons provenientes 
+da estrela A numa área de 1 mm 2. Ou seja, uma pupila de 10 mm 2 de área captaria 400.000 fótons provenientes da estrela A por segundo.
+
+Para que nosso cérebro consiga interpretar que existe um objeto ali, porém, ele precisa receber 40.000.000 
+fótons por segundo. Assim, podemos utilizar um telescópio com lente (ou espelho) de 100 mm 2 de área, que vai 
+captar a quantidade necessária de fótons provenientes da estrela A e encaminhá-los até nossa pupila, fazendo 
+assim com que nosso cérebro perceba a presença da estrela ali.
+
+Dada uma lista com estrelas no céu, o fluxo de fótons que cada uma delas emite, e área de abertura de um telescópio, 
+dizer quantas estrelas serão perceptíveis usando tal telescópio.
+
+Entrada
+A primeira linha da entrada terá um inteiro A (1 ≤ A ≤ 10.000) representando a área de abertura do telescópio 
+(em milímetros quadrados) a ser considerado. A segunda linha possui um inteiro N (1 ≤ N ≤ 10.000) representando o 
+número de estrelas a serem estudadas. As N linhas seguintes terão, cada uma, um inteiro F (1 ≤ F ≤ 20.000) 
+representando o fluxo de fótons que cada uma das N estrelas emitem (em fótons por segundo por milímetro quadrado).
+
+Saída
+Imprima um inteiro representando a quantidade de estrelas que serão percebidas ao se utilizar o telescópio em questão.
+"""
+def perceptible_stars(A, N, fluxes):
+    threshold = 40000000
+    count = 0
+    for flux in fluxes:
+        if flux * A >= threshold:
+            count += 1
+    return count
+
+def main():
+    A = int(input())
+    N = int(input())
+    fluxes = [int(input()) for _ in range(N)]
+    print(perceptible_stars(A, N, fluxes))
+
+if __name__ == "__main__":
+    main()
+
+# Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+
+# ================================================================================================================================================================
+
+
+
+"""
+14 - Caçadores de Mitos (ProblemId 2343, Page 16 of 34, difficulty 5/10):
+Jorge é um apresentador de televisão que comanda a versão brasileira do grande sucesso Caçadores de Mitos, 
+onde se estuda um mito para descobrir se é fato ou apenas um boato.
+
+No próximo episódio, Jorge deverá apresentar o mito que diz que ”os raios não caem duas vezes no mesmo lugar”, 
+referindo-se aos raios das tempestades de chuva.
+
+Para isso, foi até a cidade de Eletrolândia, que é a cidade com maior ocorrência de raios no mundo. 
+O prefeito tem tanto orgulho desse título que mandou criar um sistema para registrar os raios. 
+Jorge conseguiu um relatório com as ocorrências de cada raio que caiu na cidade nos últimos anos.
+
+O mapa de Eletrolândia é um retângulo. Para o sistema de registro a cidade é subdividida em quadrados de um metro de lado, 
+denominados quadrantes. Assim, se a cidade tem 300 metros de largura e 1000 de comprimento, 
+ela será subdividida em 300.000 quadrantes. O sistema de registro armazena o quadrante em que o raio caiu. 
+Cada quadrante é identificado pelas suas coordenadas X e Y, conforme ilustra a figura abaixo, 
+que exemplifica um mapa de uma cidade com oito metros de comprimento por cinco metros de largura (quarenta quadrantes).
+
+
+
+Como os quadrantes são relativamente pequenos, Jorge decidiu que se dois raios caíram no mesmo 
+quadrante, pode-se considerar que caíram no mesmo lugar.
+
+Sua missão é escrever um programa que receba as coordenadas dos raios que caíram em Eletrolândia nos últimos 
+anos e determine se o mito estudado é realmente apenas um mito ou pode ser considerado verdade.
+
+Entrada
+A entrada contém um único conjunto de testes, que deve ser lido do dispositivo de entrada padrão (normalmente o teclado).
+
+A primeira linha da entrada contém um número inteiro N (2 ≤ N ≤ 500.000) representando o número de 
+registros de raios no relatório. Cada uma das N linhas seguintes contém 2 números inteiros X, Y (0 ≤ X, Y ≤ 500), 
+representando o registro de um raio que caiu no quadrante cujas coordenadas são (X, Y).
+
+Saída
+Seu programa deve imprimir, na saída padrão, o número 0 se nenhum raio caiu no mesmo lugar, ou o número 1 caso contrário. 
+Note que você deve imprimir o número 1 mesmo que haja mais do que 1 par de raios que caíram no mesmo lugar.
+"""
+def myth_busters(N, raios):
+    return len(set(raios)) < N
+
+def main():
+    N = int(input())
+    raios = [tuple(map(int, input().split())) for _ in range(N)]
+    print(1 if myth_busters(N, raios) else 0)
+
+if __name__ == "__main__":
+    main()
+
+# Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+
+# ================================================================================================================================================================
+
+
+"""
+15 - Maratona (ProblemId 2366, Page 16 of 34, difficulty 5/10):
+A maratona é talvez a prova mais desgastante entre as modalidades olímpicas: são quarenta e dois mil, 
+cento e noventa e cinco metros de percurso. Por isso, os organizadores sempre posicionam vários postos 
+de água ao longo do trajeto da prova, onde copos de água são distribuídos aos competidores.
+
+João Saci é um jovem atleta que tem boas chances de se tornar um maratonista de primeira linha. 
+No entanto, João Saci descobriu que somente consegue terminar uma maratona se ingerir alguns copos 
+de água durante o percurso. O Laboratório de Biomecânica da universidade local, através de experimentos, 
+determinou que João Saci consegue percorrer exatamente mais dois mil metros após o instante em que ingere 
+um copo de água. A distância que João Saci consegue percorrer após ingerir um copo de água é denominada 
+de distância intermediária máxima. Assim, se a distância entre dois postos de água consecutivos no percurso 
+da maratona for sempre menor ou igual do que a distância intermediária máxima de João Saci, ele consegue 
+terminar a prova. Caso contrário ele não consegue terminar a prova.
+
+O Laboratório de Biomecânica quer agora realizar estudos similares com outros maratonistas, que têm valor de 
+distâncias intermediárias máximas distintas, e precisa de sua ajuda.
+
+Sua tarefa é escrever um programa que, dada a posição dos postos de água ao longo do percurso, e a 
+distância intermediária máxima de um atleta, determine se o atleta consegue ou não completar a prova.
+
+Entrada
+A entrada contém um único conjunto de testes, que deve ser lido do dispositivo de entrada padrão (normalmente o teclado).
+
+A primeira linha da entrada contém dois números inteiros N e M, separados por um espaço em branco, 
+indicando respectivamente o número de postos de água (2 ≤ N ≤ 10000) e a distância intermediária máxima de um 
+atleta, em metros (1 ≤ M ≤ 42195). A segunda linha contém N números inteiros Pi, separados por um espaço 
+em branco, representando a posição dos postos de água ao longo do trajeto da maratona. A posição de um 
+posto de água é dada pela distância, em metros, do início do percurso até o posto de água (0 ≤ Pi ≤ 42195 para 1 ≤ i ≤ N). 
+O primeiro posto de água está sempre localizado no ponto de partida (ou seja, P1 = 0) e todos os postos estão 
+em posições distintas. Além disso, os postos de água são dados na ordem crescente de sua distância ao início do percurso.
+Note que a distância total da prova é a oficial para a maratona, ou seja, 42195 metros.
+
+Saída
+Seu programa deve imprimir, na saída padrão, uma única linha contendo o caractere ‘S’ se o atleta consegue 
+terminar a prova, ou o caractere ‘N’ caso contrário.
+"""
+def can_complete_marathon():
+    import sys
+    input = sys.stdin.read
+    data = input().split()
+    
+    N = int(data[0])
+    M = int(data[1])
+    positions = list(map(int, data[2:2+N]))
+    
+    for i in range(1, N):
+        if positions[i] - positions[i-1] > M:
+            print('N')
+            return
+    
+    if 42195 - positions[-1] > M:
+        print('N')
+    else:
+        print('S')
+
+if __name__ == "__main__":
+    can_complete_marathon()
+
+# Correct answer with: 2 changes after copilot and/or copilot chat and 0 manual changes
+
+# ================================================================================================================================================================
+
+
+"""
+Palíndrome (ProblemId 2285, Page 14 of 34, difficulty ?/10):
 """
 
 # Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
@@ -555,7 +908,7 @@ Palíndrome (ProblemId 2285, Page 14 of 34, difficulty 6/10):
 
 
 """
-Palíndrome (ProblemId 2285, Page 14 of 34, difficulty 6/10):
+Palíndrome (ProblemId 2285, Page 14 of 34, difficulty ?/10):
 """
 
 # Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
@@ -564,7 +917,7 @@ Palíndrome (ProblemId 2285, Page 14 of 34, difficulty 6/10):
 
 
 """
-Palíndrome (ProblemId 2285, Page 14 of 34, difficulty 6/10):
+Palíndrome (ProblemId 2285, Page 14 of 34, difficulty ?/10):
 """
 
 # Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
@@ -573,17 +926,7 @@ Palíndrome (ProblemId 2285, Page 14 of 34, difficulty 6/10):
 
 
 """
-Palíndrome (ProblemId 2285, Page 14 of 34, difficulty 6/10):
-"""
-
-# Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
-
-# ================================================================================================================================================================
-
-
-
-"""
-Palíndrome (ProblemId 2285, Page 14 of 34, difficulty 6/10):
+Palíndrome (ProblemId 2285, Page 14 of 34, difficulty ?/10):
 """
 
 # Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
@@ -592,7 +935,7 @@ Palíndrome (ProblemId 2285, Page 14 of 34, difficulty 6/10):
 
 
 """
-Palíndrome (ProblemId 2285, Page 14 of 34, difficulty 6/10):
+Palíndrome (ProblemId 2285, Page 14 of 34, difficulty ?/10):
 """
 
 # Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
@@ -601,7 +944,7 @@ Palíndrome (ProblemId 2285, Page 14 of 34, difficulty 6/10):
 
 
 """
-Palíndrome (ProblemId 2285, Page 14 of 34, difficulty 6/10):
+Palíndrome (ProblemId 2285, Page 14 of 34, difficulty ?/10):
 """
 
 # Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
@@ -610,52 +953,7 @@ Palíndrome (ProblemId 2285, Page 14 of 34, difficulty 6/10):
 
 
 """
-Palíndrome (ProblemId 2285, Page 14 of 34, difficulty 6/10):
-"""
-
-# Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
-
-# ================================================================================================================================================================
-
-
-"""
-Palíndrome (ProblemId 2285, Page 14 of 34, difficulty 6/10):
-"""
-
-# Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
-
-# ================================================================================================================================================================
-
-
-"""
-Palíndrome (ProblemId 2285, Page 14 of 34, difficulty 6/10):
-"""
-
-# Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
-
-# ================================================================================================================================================================
-
-
-"""
-Palíndrome (ProblemId 2285, Page 14 of 34, difficulty 6/10):
-"""
-
-# Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
-
-# ================================================================================================================================================================
-
-
-"""
-Palíndrome (ProblemId 2285, Page 14 of 34, difficulty 6/10):
-"""
-
-# Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
-
-# ================================================================================================================================================================
-
-
-"""
-Palíndrome (ProblemId 2285, Page 14 of 34, difficulty 6/10):
+Palíndrome (ProblemId 2285, Page 14 of 34, difficulty ?/10):
 """
 
 # Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes

@@ -614,7 +614,7 @@ function signalStrength() {
 // ================================================================================================================================================================
 
 /*
-Honeycomb Walk (ProblemId 3204, Page 13 of 14, difficulty 1/10):
+Honeycomb Walk (ProblemId 3204, Page 13 of 14, difficulty 2/10):
 
 A bee larva living in a hexagonal cell of a large honeycomb decides to creep for a walk. 
 In each “step” the larva may move into any of the six adjacent cells and after n steps, it is to end up in its original cell.
