@@ -185,7 +185,7 @@ function bazinga() {
 // ================================================================================================================================================================
 
 /*
-Star Trek (ProblemId 1828, Page 6 of 14, difficulty 7/10):
+Star Trek (ProblemId 1973, Page 6 of 14, difficulty 7/10):
 
 After buying many adjacent farms at the west region of Santa Catarina, the Star family built a single road which passes by all farms in sequence. 
 The first farm of the sequence was named Star 1, the second Star 2, and so on. However, the brother who lives in Star 1 has got mad and decided 
