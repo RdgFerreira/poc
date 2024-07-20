@@ -6,3 +6,6 @@ Copilot captura bem as maneiras de resolver os problemas a partir do contexto de
 
 Copilot chat produces more complex and detailed solutions with explanations, using the whole problem description as context
 
+Copilot chat performs better when asking in the same language as the problem description
+
+Copilot struggles with capturing small but key problem details in the implementation
