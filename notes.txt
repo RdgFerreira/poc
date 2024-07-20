@@ -4,8 +4,14 @@ Copilot struggles with higher order and complex problem logic described with nat
 
 Copilot captura bem as maneiras de resolver os problemas a partir do contexto de problemas anteriores
 
-Copilot chat produces more complex and detailed solutions with explanations, using the whole problem description as context
+Copilot chat produces more complex and detailed solutions with more complex explanations, using the whole problem description as context
 
 Copilot chat performs better when asking in the same language as the problem description
 
 Copilot struggles with capturing small but key problem details in the implementation
+
+Copilot stuggles with spacial reasoning
+
+Copilot produces better solutions with a step by step functional logic approach instead of providing the whole solution in one function
+
+Copilot usually suggests solutions that exceeds time and memory constraints when facing intense math and number processing problems
