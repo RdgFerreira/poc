@@ -591,7 +591,7 @@ processInput();
 
 // ================================================================================================================
 /*
-10 - Semente (ProblemId 2452 Semente, Page 19 of 34, difficulty 7/10):
+10 - Semente (ProblemId 2452, Page 19 of 34, difficulty 7/10):
 
 Um experimento biológico utiliza uma fita de papel branco especial, na qual algumas gotas de um reagente são 
 colocadas em posições específicas. Inicialmente a gota de reagente faz com que o papel se torne preto na posição em que foi colocada. 
@@ -956,25 +956,3 @@ function canCompleteMarathon(input) {
 const input = require('fs').readFileSync('/dev/stdin', 'utf8');
 canCompleteMarathon(input);
 // Correct answer with: 2 changes after copilot and/or copilot chat and 0 manual changes
-
-// ================================================================================================================
-
-// ================================================================================================================
-/*
-Palíndrome (ProblemId 2285, Page 14 of 34, difficulty ?/10):
-
-*/
-
-// Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
-
-// ================================================================================================================
-
-// ================================================================================================================
-/*
-Palíndrome (ProblemId 2285, Page 14 of 34, difficulty ?/10):
-
-*/
-
-// Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
-
-// ================================================================================================================
