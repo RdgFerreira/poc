@@ -15,3 +15,21 @@ Copilot stuggles with spacial reasoning
 Copilot produces better solutions with a step by step functional logic approach instead of providing the whole solution in one function
 
 Copilot usually suggests solutions that exceeds time and memory constraints when facing intense math and number processing problems
+
+// =====================================================================================
+
+/*
+15 - Maratona (ProblemId 2366, difficulty 5/10):
+*/
+
+
+// Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+
+# =====================================================================================
+
+"""
+15 - Maratona (ProblemId 2366, difficulty 5/10):
+"""
+
+
+# Correct answer with: 2 changes after copilot and/or copilot chat and 0 manual changes
