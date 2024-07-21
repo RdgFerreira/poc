@@ -345,29 +345,209 @@ console.log(processAttendance(input));
 // =====================================================================================
 
 /*
-15 - Maratona (ProblemId 2366, difficulty 5/10):
+7 - How Easy (ProblemId 1243, difficulty 7/10):
+
+TopCoder decided to automate the process of assigning levels of difficulty to the problems. 
+TopCoder developers concluded that the difficulty of the problem is related only to average 
+length of the words in the problem statement. If the average length of the words of the statement is less than or equal to 3, 
+the problem difficulty receives 250 points. If the average length of the words of the statement is 4 or 5, 
+the problem difficulty receives 500 points. If the average length of utterance of words is greater than or equal to 6, 
+the problem difficulty receives 1000 points.
+
+
+Definitions:
+
+Symbol: A set of characters linked by spaces from both sides, or at the beginning of the 
+description of the problem, or even the end of the description of the problem.
+
+Word: a symbol that contains only letters a-z or A-Z, and can be finished with a single point.
+
+Word length: number of letters in a word (a point is not a letter).
+
+
+Examples of symbols are words (quotes just to exemplify): "AB", "ab".
+
+Example of symbols that are not words: "ab..", "a.b", ".ab", "a.b.", "a2b.", ".".
+
+
+The average length of the words is given by the sum of the sizes of the utterance of words divided by the number of words, 
+the division is made by integers. If the word count is zero, then the average length of the words is zero.
+
+
+Your task is given the problem statement, compute its classification of difficulty of the problem, which can be 250, 500, or 1000.
+
+Input
+The entry contains several test cases. Each test case is composed of a line containing the statement of a problem, 
+is a string containing between 1 and 50 characters ('A'-'Z','a'-'z','0'-'9', ' ', '.') inclusive. The end of input is determined by EOF.
+
+Output
+Compute the average length of words in the statement of the problem, and show the classification of the problem, 
+for more details see the example below.
 */
 
+function classifyProblemDifficulty(statement) {
+    // Split the statement into symbols
+    const symbols = statement.split(' ');
 
-// Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+    // Filter out invalid words
+    const words = symbols.filter(symbol => /^[a-zA-Z]+\.?$/.test(symbol));
+
+    // Calculate the total length of valid words
+    const totalLength = words.reduce((sum, word) => sum + word.replace('.', '').length, 0);
+
+    // Calculate the average length of words
+    const averageLength = words.length === 0 ? 0 : Math.floor(totalLength / words.length);
+
+    // Determine the difficulty based on the average length
+    let difficulty;
+    if (averageLength <= 3) {
+        difficulty = 250;
+    } else if (averageLength <= 5) {
+        difficulty = 500;
+    } else {
+        difficulty = 1000;
+    }
+
+    // Output the difficulty
+    return difficulty;
+}
+
+const input = require('fs').readFileSync('/dev/stdin', 'utf8');
+const statements = input.trim().split('\n');
+statements.forEach(statement => console.log(classifyProblemDifficulty(statement)));
+
+
+
+// Correct answer with: 2 changes after copilot and/or copilot chat and 0 manual changes
 
 // =====================================================================================
 
 /*
-15 - Maratona (ProblemId 2366, difficulty 5/10):
+8 - Friendly Int Parser (ProblemId 1287, difficulty 8/10):
+
+Computers have made their way into a significant percentage of the homes in the world, 
+and as programmers we are responsible for designing user interfaces that everyone can use. 
+User interfaces need to be flexible so that if a user makes some non-fatal error, the interface can still figure out what the user meant.
+
+Your task is to write a program which processes a text input representing an integer, however, 
+because this is a friendly user interface, we cut the user a little more slack:
+
+1. If the user types the letter "O" or "o", we assume that they meant the digit "0".
+
+2. If the user types the letter "l", we assume that they meant the digit "1".
+
+3. Commas and spaces are allowed, but are not processed (ignore them).
+
+If the user has still not entered a valid non-negative integer (even with the rules above), 
+print the string "error". Overflow (a value greater than 2147483647) is considered invalid and "error" should be printed.
+
+Input
+Each line of input is one test case and contains one string n. This n will contain between 0 and 50, 
+inclusive, letters, numbers, spaces, or commas.
+
+Output
+For each test case in the input, your program must print the integer represented by n or "error" if n is not a valid non-negative integer.
+Note: an empty string does not represent a valid integer.
 */
 
+function friendlyIntParser(n) {
+    // Step 2: Replace 'O'/'o' with '0'
+    n = n.replace(/O|o/g, '0');
+    
+    // Step 3: Replace 'l' with '1'
+    n = n.replace(/l/g, '1');
+    
+    // Step 4: Remove commas and spaces
+    n = n.replace(/,|\s/g, '');
+    
+    // Step 5: Check if the resulting string is a valid non-negative integer
+    if (n === '' || !/^\d+$/.test(n)) {
+        console.log("error");
+        return;
+    }
+    
+    // Convert the string to a number
+    let num = Number(n);
+    
+    // Check if the number is within the valid range
+    if (num > 2147483647) {
+        console.log("error");
+    } else {
+        console.log(num);
+    }
+}
 
-// Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+// Example usage:
+const input = require('fs').readFileSync('/dev/stdin', 'utf8');
+const lines = input.trim().split('\n');
+lines.forEach(line => friendlyIntParser(line));
+
+// 95% Correct answers with: 6 changes after copilot and/or copilot chat and 0 manual changes
 
 // =====================================================================================
 
 /*
-15 - Maratona (ProblemId 2366, difficulty 5/10):
+9 - Kickback Sum (ProblemId 1898, difficulty 9/10):
+
+The brazilian agency for criminal investigations called OBI (Operation of Big Investigation) 
+noted that, as the has occurred in Petrobras, a lot of money was diverted from public state 
+coffers to pay bribes to politicians in recent years, especially by the political party QU (United Quadrille).
+The investigation is still in course and the agency has recruited you to convert some values that are with strange characters 
+after it were decrypted the original files. Your task in this case is Relatively simple: 
+just remove all strange characters (non-numeric) of each of the two available numbers and sum these values. 
+Just note that the first 11 valid digits of the first number corresponding to the corrupt ID :)
+
+Input
+The input contains two rows, each one containing between 1 and 60 characteres 
+('0'-'9' and others non numeric characteres or, at least, 1 character '0'-'9') and at maximun, one decimal point ".". 
+Desconsidering the non-numeric digits, the final number can have up to 17 characters, at maximum (including decimal point). 
+Any number after the second digit after the decimal point must be discarded.
+
+Output
+Print the cpf of the corrupt as shown below and the sum of the two numbers that were diverted from public funds, always with two decimal places.
 */
 
+function solveKickbackSum(input) {
+    // Split the input into two lines
+    const lines = input.trim().split('\n');
+    const firstLine = lines[0];
+    const secondLine = lines[1];
 
-// Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+    // Function to clean and format the number
+    function cleanAndFormatNumber(str) {
+        // Remove all non-numeric characters except for the decimal point
+        let cleaned = str.replace(/[^0-9.]/g, '');
+        // Ensure at most two decimal places
+        if (cleaned.includes('.')) {
+            const parts = cleaned.split('.');
+            cleaned = parts[0] + '.' + parts[1].slice(0, 2);
+        }
+        return cleaned;
+    }
+
+    // Clean and format both numbers
+    const cleanedFirstNumber = cleanAndFormatNumber(firstLine);
+    const cleanedSecondNumber = cleanAndFormatNumber(secondLine);
+
+    // Extract the first 11 valid digits from the first number for the corrupt ID
+    const corruptID = cleanedFirstNumber.replace('.', '').slice(0, 11);
+
+    // Convert cleaned strings to numbers
+    const num1 = parseFloat(cleanedFirstNumber);
+    const num2 = parseFloat(cleanedSecondNumber);
+
+    // Sum the two numbers
+    const sum = num1 + num2;
+
+    // Print the corrupt ID and the sum formatted to two decimal places
+    console.log(`cpf ${corruptID}`);
+    console.log(sum.toFixed(2));
+}
+
+const input = require('fs').readFileSync('/dev/stdin', 'utf8');
+solveKickbackSum(input);
+
+// 65% Correct answers with: 6 changes after copilot and/or copilot chat and 0 manual changes
 
 // =====================================================================================
 

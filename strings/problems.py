@@ -238,6 +238,8 @@ For each test case print out the names of all the students who do not meet the a
 separated by a single space character. Do not leave trailing spaces in the end of each line.
 """
 
+from typing import List
+
 def shortAttendance(n: int, students: List[str], attendance: List[str]) -> List[str]:
     short_attendance = []
     for student, record in zip(students, attendance):
@@ -259,26 +261,207 @@ for _ in range(t):
 # =====================================================================================
 
 """
-15 - Maratona (ProblemId 2366, difficulty 5/10):
+7 - How Easy (ProblemId 1243, difficulty 7/10):
+
+TopCoder decided to automate the process of assigning levels of difficulty to the problems. 
+TopCoder developers concluded that the difficulty of the problem is related only to average 
+length of the words in the problem statement. If the average length of the words of the statement is less than or equal to 3, 
+the problem difficulty receives 250 points. If the average length of the words of the statement is 4 or 5, 
+the problem difficulty receives 500 points. If the average length of utterance of words is greater than or equal to 6, 
+the problem difficulty receives 1000 points.
+
+
+Definitions:
+
+Symbol: A set of characters linked by spaces from both sides, or at the beginning of the 
+description of the problem, or even the end of the description of the problem.
+
+Word: a symbol that contains only letters a-z or A-Z, and can be finished with a single point.
+
+Word length: number of letters in a word (a point is not a letter).
+
+
+Examples of symbols are words (quotes just to exemplify): "AB", "ab".
+
+Example of symbols that are not words: "ab..", "a.b", ".ab", "a.b.", "a2b.", ".".
+
+
+The average length of the words is given by the sum of the sizes of the utterance of words divided by the number of words, 
+the division is made by integers. If the word count is zero, then the average length of the words is zero.
+
+
+Your task is given the problem statement, compute its classification of difficulty of the problem, which can be 250, 500, or 1000.
+
+Input
+The entry contains several test cases. Each test case is composed of a line containing the statement of a problem, 
+is a string containing between 1 and 50 characters ('A'-'Z','a'-'z','0'-'9', ' ', '.') inclusive. The end of input is determined by EOF.
+
+Output
+Compute the average length of words in the statement of the problem, and show the classification of the problem, 
+for more details see the example below.
 """
 
+import sys
+import re
 
-# Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+def is_valid_word(symbol):
+    return re.match(r'^[a-zA-Z]+\.?$', symbol) is not None
+
+def calculate_difficulty(statement):
+    symbols = statement.split()
+    words = [symbol.rstrip('.') for symbol in symbols if is_valid_word(symbol)]
+    if not words:
+        average_length = 0
+    else:
+        total_length = sum(len(word) for word in words)
+        average_length = total_length // len(words)
+    
+    if average_length <= 3:
+        return 250
+    elif average_length in [4, 5]:
+        return 500
+    else:
+        return 1000
+
+def main():
+    input_lines = sys.stdin.read().strip().split('\n')
+    for line in input_lines:
+        difficulty = calculate_difficulty(line)
+        print(difficulty)
+
+if __name__ == "__main__":
+    main()
+
+# Correct answer with: 2 changes after copilot and/or copilot chat and 0 manual changes
 
 # =====================================================================================
 
 """
-15 - Maratona (ProblemId 2366, difficulty 5/10):
+8 - Friendly Int Parser (ProblemId 1287, difficulty 8/10):
+
+Computers have made their way into a significant percentage of the homes in the world, 
+and as programmers we are responsible for designing user interfaces that everyone can use. 
+User interfaces need to be flexible so that if a user makes some non-fatal error, the interface can still figure out what the user meant.
+
+Your task is to write a program which processes a text input representing an integer, however, 
+because this is a friendly user interface, we cut the user a little more slack:
+
+1. If the user types the letter "O" or "o", we assume that they meant the digit "0".
+
+2. If the user types the letter "l", we assume that they meant the digit "1".
+
+3. Commas and spaces are allowed, but are not processed (ignore them).
+
+If the user has still not entered a valid non-negative integer (even with the rules above), 
+print the string "error". Overflow (a value greater than 2147483647) is considered invalid and "error" should be printed.
+
+Input
+Each line of input is one test case and contains one string n. This n will contain between 0 and 50, 
+inclusive, letters, numbers, spaces, or commas.
+
+Output
+For each test case in the input, your program must print the integer represented by n or "error" if n is not a valid non-negative integer.
+Note: an empty string does not represent a valid integer.
 """
 
+def friendly_int_parser(n):
+    # Step 2: Replace 'O' and 'o' with '0'
+    n = n.replace('O', '0').replace('o', '0')
+    
+    # Step 3: Replace 'l' with '1'
+    n = n.replace('l', '1')
+    
+    # Step 4: Remove all commas and spaces
+    n = n.replace(',', '').replace(' ', '')
+    
+    # Step 5: Check if the resulting string is a valid non-negative integer
+    if not n.isdigit():
+        print("error")
+        return
+    
+    # Convert the string to an integer
+    num = int(n)
+    
+    # Check for overflow
+    if num > 2147483647:
+        print("error")
+    else:
+        print(num)
 
-# Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+# read lines from input
+while True:
+    try:
+        n = input()
+        friendly_int_parser(n)
+    except EOFError:
+        break
+
+
+
+# Correct answer with: 2 changes after copilot and/or copilot chat and 0 manual changes
 
 # =====================================================================================
 
 """
-15 - Maratona (ProblemId 2366, difficulty 5/10):
+9 - Kickback Sum (ProblemId 1898, difficulty 9/10):
+
+The brazilian agency for criminal investigations called OBI (Operation of Big Investigation) 
+noted that, as the has occurred in Petrobras, a lot of money was diverted from public state 
+coffers to pay bribes to politicians in recent years, especially by the political party QU (United Quadrille).
+The investigation is still in course and the agency has recruited you to convert some values that are with strange characters 
+after it were decrypted the original files. Your task in this case is Relatively simple: 
+just remove all strange characters (non-numeric) of each of the two available numbers and sum these values. 
+Just note that the first 11 valid digits of the first number corresponding to the corrupt ID :)
+
+Input
+The input contains two rows, each one containing between 1 and 60 characteres 
+('0'-'9' and others non numeric characteres or, at least, 1 character '0'-'9') and at maximun, one decimal point ".". 
+Desconsidering the non-numeric digits, the final number can have up to 17 characters, at maximum (including decimal point). 
+Any number after the second digit after the decimal point must be discarded.
+
+Output
+Print the cpf of the corrupt as shown below and the sum of the two numbers that were diverted from public funds, always with two decimal places.
+cpf <cpf>
+<sum>
 """
+
+import re
+
+def clean_number(number_str):
+    # Remove all non-numeric characters except the decimal point
+    cleaned = re.sub(r'[^0-9.]', '', number_str)
+    # Ensure only two decimal places
+    if '.' in cleaned:
+        integer_part, decimal_part = cleaned.split('.')
+        cleaned = integer_part + '.' + decimal_part[:2]
+    return cleaned
+
+def main():
+    # Read input
+    first_line = input().strip()
+    second_line = input().strip()
+    
+    # Clean the numbers
+    cleaned_first = clean_number(first_line)
+    cleaned_second = clean_number(second_line)
+    
+    # Extract CPF (first 11 digits of the first number)
+    cpf = ''.join(filter(str.isdigit, cleaned_first))[:11]
+    
+    # Convert to float
+    num1 = float(cleaned_first)
+    num2 = float(cleaned_second)
+    
+    # Calculate the sum
+    total_sum = num1 + num2
+    
+    # Print results without using f strings
+    print("cpf " + str(cpf))
+    sum = round(total_sum, 2)
+    print(str(sum))
+
+if __name__ == "__main__":
+    main()
 
 
 # Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes

@@ -16,6 +16,8 @@ Copilot produces better solutions with a step by step functional logic approach 
 
 Copilot usually suggests solutions that exceeds time and memory constraints when facing intense math and number processing problems
 
+Copilot struggles with complex string parsing and decoding
+
 // =====================================================================================
 
 /*
