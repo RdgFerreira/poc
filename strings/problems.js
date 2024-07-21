@@ -552,71 +552,203 @@ solveKickbackSum(input);
 // =====================================================================================
 
 /*
-15 - Maratona (ProblemId 2366, difficulty 5/10):
+10 - Growing Strings (ProblemId 1141, difficulty 10/10):
+
+Gene and Gina have a particular kind of farm. Instead of growing animals and vegetables, as it is usually the case in regular farms, 
+they grow strings. A string is a sequence of characters. Strings have the particularity that, as they grow, 
+they add characters to the left and/or to the right of themselves, but they never lose characters, nor insert new characters in the middle.
+
+Gene and Gina have a collection of photos of some strings at different times during their growth. 
+The problem is that the collection is not annotated, so they forgot to which string each photo belongs to.
+They want to put together a wall to illustrate strings growing procedures, but they need your help to find an appropriate sequence of photos.
+
+Each photo illustrates a string. The sequence of photos must be such that if si comes immediately before si+1 in the sequence, 
+then si+1 is a string that may have grown from si (i.e., si appears as a consecutive substring of si+1). 
+Also, they do not want to use repeated pictures, so all strings in the sequence must be different.
+
+Given a set of strings representing all available photos, your job is to calculate the size of the largest sequence they 
+can produce following the guidelines above.
+
+Input
+Each test case is given using several lines. The first line contains an integer N representing the number of 
+strings in the set (1 ≤ N ≤ 104). Each of the following N lines contains a different non-empty string of at most 
+1000 lowercase letters of the English alphabet. Within each test case, the sum of the lengths of all strings is at most 106.
+The last test case is followed by a line containing one zero.
+
+Output
+For each test case print a single line with a single integer representing the size of the largest sequence of photos that can be produced.
+
+Input Sample
+6
+plant
+ant
+cant
+decant
+deca
+an
+2
+supercalifragilisticexpialidocious
+rag
+0
+
+Output Sample
+4
+2
 */
 
+function findLongestSequence(input) {
+    let lines = input.trim().split('\n');
+    let index = 0;
+    let results = [];
 
-// Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+    while (index < lines.length) {
+        let N = parseInt(lines[index]);
+        if (N === 0) break;
+
+        let strings = [];
+        for (let i = 1; i <= N; i++) {
+            strings.push(lines[index + i]);
+        }
+        index += N + 1;
+
+        // Sort strings by length
+        strings.sort((a, b) => a.length - b.length);
+
+        // Hash map to store the longest sequence length ending at each string
+        let dp = new Map();
+
+        for (let str of strings) {
+            dp.set(str, 1); // Each string is a sequence of length 1 by itself
+        }
+
+        let maxLength = 1;
+
+        for (let i = 0; i < N; i++) {
+            let currentString = strings[i];
+            for (let j = 0; j < currentString.length; j++) {
+                let newString = currentString.slice(0, j) + currentString.slice(j + 1);
+                if (dp.has(newString)) {
+                    dp.set(currentString, Math.max(dp.get(currentString), dp.get(newString) + 1));
+                }
+            }
+            maxLength = Math.max(maxLength, dp.get(currentString));
+        }
+
+        results.push(maxLength);
+    }
+
+    return results;
+}
+
+const input = require('fs').readFileSync('/dev/stdin', 'utf8');
+console.log(findLongestSequence(input).join('\n'));
+
+
+
+// Time limit exceededs with: 6 changes after copilot and/or copilot chat and 0 manual changes
 
 // =====================================================================================
 
 /*
-15 - Maratona (ProblemId 2366, difficulty 5/10):
+11 - Chinese Whispers (ProblemId 1448, difficulty 9/10):
+
+Every kid certainly played Chinese Whispers at least once with other kids. 
+It is a game in which one person whispers a message to another, 
+which is passed through a line of people until the last player announces the message to the entire group. 
+Little John invented a variation of this game.
+
+In this game, there are two teams and a judge. In each team, the kids play as in the original game: 
+each kid whispers the message to another, and the last kid announces the message he/she heard. 
+The initial message is told to the first kid of each team by the judge. 
+This message is the same for both teams. Also, this message contains n characters (letters, spaces, punctuation, etc. included). 
+The length of the message is known by all the kids, thus the messages announced by the last kids of each team also have n characters.
+
+The team that announces the most similar message to the original one, wins. 
+The "similarity" of a message is equal to the number of positions in which the character in the original
+message and the one in the announced message is the same. If this number is equal for both teams, 
+find the first position for which one team announced the correct character, and the other didn't. 
+If there's still a tie, the game result is a draw.
+
+For example, if the initial message was "O rato roeu a roupa do rei.", 
+the first team announced "O ator morreu, garoupa rei.", and the second team 
+announced "O pato moeu garoupa dorlei.", the second teams wins, because there are 21 positions in which the 
+character is the same for the second team, and only 9 positions for the first one.
+
+Like the ICPC judges, the judges of this game are lazy, too. They asked you to write a program that decides the winning team.
+
+Input
+The first line of the input contains an integer t, 1 ≤ t ≤ 1000, the number of instances that your program must process.
+
+Each instance is described by 3 lines. The first line contains the initial message. 
+The second line contains the message announced by the first team, and the third line 
+contains the message announced by the second team. All the messages will have at most 100 characters, 
+and the 3 messages will have the same length.
+
+Output
+For each instance, print "Instancia k", where k is the instance number. In the following line, 
+print "time W" (Portuguese for "team W"), where W = 1 if the first team wins, or W = 2 if the second team wins. 
+If the game result is a draw, print "empate" (Portuguese for "draw") instead. Print a blank line after each test case.
+
+Sample Input
+2
+O RATO ROEU A ROUPA DO REI.
+O ATOR MORREU, GAROUPA REI.
+O PATO MOEU GAROUPA DORLEI.
+IH EMPATOU!
+IH EMPATOU!
+IH EMPATOU!
+
+Sample Output
+Instancia 1
+time 2
+
+Instancia 2
+empate
 */
 
+function solveChineseWhispers(input) {
+    const lines = input.trim().split('\n');
+    const t = parseInt(lines[0]);
+    let index = 1;
+    let result = '';
 
-// Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+    for (let i = 1; i <= t; i++) {
+        const original = lines[index++];
+        const team1 = lines[index++];
+        const team2 = lines[index++];
 
-// =====================================================================================
+        let similarity1 = 0;
+        let similarity2 = 0;
+        let firstDifferenceIndex = -1;
 
-/*
-15 - Maratona (ProblemId 2366, difficulty 5/10):
-*/
+        for (let j = 0; j < original.length; j++) {
+            if (original[j] === team1[j]) similarity1++;
+            if (original[j] === team2[j]) similarity2++;
+            if (firstDifferenceIndex === -1 && original[j] !== team1[j] && original[j] === team2[j]) {
+                firstDifferenceIndex = j;
+            }
+        }
 
+        result += `Instancia ${i}\n`;
 
-// Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+        if (similarity1 > similarity2) {
+            result += 'time 1\n';
+        } else if (similarity2 > similarity1) {
+            result += 'time 2\n';
+        } else {
+            if (firstDifferenceIndex !== -1) {
+                result += 'time 2\n';
+            } else {
+                result += 'empate\n';
+            }
+        }
 
-// =====================================================================================
+        result += '\n';
+    }
 
-/*
-15 - Maratona (ProblemId 2366, difficulty 5/10):
-*/
-
-
-// Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
-
-// =====================================================================================
-
-/*
-15 - Maratona (ProblemId 2366, difficulty 5/10):
-*/
-
-
-// Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
-
-// =====================================================================================
-
-/*
-15 - Maratona (ProblemId 2366, difficulty 5/10):
-*/
-
-
-// Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
-
-// =====================================================================================
-
-/*
-15 - Maratona (ProblemId 2366, difficulty 5/10):
-*/
+    console.log(result.trim());
+}
 
 
-// Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
-
-// =====================================================================================
-
-/*
-15 - Maratona (ProblemId 2366, difficulty 5/10):
-*/
-
-
-// Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+const input = require('fs').readFileSync('/dev/stdin', 'utf8');
+solveChineseWhispers(input);

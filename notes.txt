@@ -18,6 +18,8 @@ Copilot usually suggests solutions that exceeds time and memory constraints when
 
 Copilot struggles with complex string parsing and decoding
 
+Copilot solutions converges faster with higher difficulty problems
+
 // =====================================================================================
 
 /*

@@ -423,6 +423,14 @@ Output
 Print the cpf of the corrupt as shown below and the sum of the two numbers that were diverted from public funds, always with two decimal places.
 cpf <cpf>
 <sum>
+
+Input Sample
+7a5a6adfg4a4adsfgsd9fg6aa904aa91#$%11.23
+42**&774667
+
+Output Sample
+cpf 75644969049
+42774778.23
 """
 
 import re
@@ -455,51 +463,210 @@ def main():
     # Calculate the sum
     total_sum = num1 + num2
     
-    # Print results without using f strings
-    print("cpf " + str(cpf))
+    # Print results
+    print(f"cpf {cpf}")
     sum = round(total_sum, 2)
     print(str(sum))
 
 if __name__ == "__main__":
+    main() 
+
+# 65% Correct answers with: 4 changes after copilot and/or copilot chat and 0 manual changes
+
+# =====================================================================================
+
+"""
+10 - Growing Strings (ProblemId 1141, difficulty 10/10):
+
+Gene and Gina have a particular kind of farm. Instead of growing animals and vegetables, as it is usually the case in regular farms, 
+they grow strings. A string is a sequence of characters. Strings have the particularity that, as they grow, 
+they add characters to the left and/or to the right of themselves, but they never lose characters, nor insert new characters in the middle.
+
+Gene and Gina have a collection of photos of some strings at different times during their growth. 
+The problem is that the collection is not annotated, so they forgot to which string each photo belongs to.
+They want to put together a wall to illustrate strings growing procedures, but they need your help to find an appropriate sequence of photos.
+
+Each photo illustrates a string. The sequence of photos must be such that if si comes immediately before si+1 in the sequence, 
+then si+1 is a string that may have grown from si (i.e., si appears as a consecutive substring of si+1). 
+Also, they do not want to use repeated pictures, so all strings in the sequence must be different.
+
+Given a set of strings representing all available photos, your job is to calculate the size of the largest sequence they 
+can produce following the guidelines above.
+
+Input
+Each test case is given using several lines. The first line contains an integer N representing the number of 
+strings in the set (1 ≤ N ≤ 104). Each of the following N lines contains a different non-empty string of at most 
+1000 lowercase letters of the English alphabet. Within each test case, the sum of the lengths of all strings is at most 106.
+The last test case is followed by a line containing one zero.
+
+Output
+For each test case print a single line with a single integer representing the size of the largest sequence of photos that can be produced.
+
+Input Sample
+6
+plant
+ant
+cant
+decant
+deca
+an
+2
+supercalifragilisticexpialidocious
+rag
+0
+
+Output Sample
+4
+2
+"""
+
+def longest_sequence(strings):
+    n = len(strings)
+    strings.sort(key=len)  # Sort strings by length
+    dp = [1] * n  # Initialize dp array
+
+    for i in range(n):
+        for j in range(i):
+            if strings[j] in strings[i]:
+                dp[i] = max(dp[i], dp[j] + 1)
+
+    return max(dp)
+
+def main():
+    import sys
+    input = sys.stdin.read
+    data = input().strip().split('\n')
+    
+    index = 0
+    results = []
+    
+    while index < len(data):
+        n = int(data[index])
+        if n == 0:
+            break
+        index += 1
+        strings = []
+        for _ in range(n):
+            strings.append(data[index])
+            index += 1
+        results.append(longest_sequence(strings))
+    
+    for result in results:
+        print(result)
+
+if __name__ == "__main__":
     main()
 
-
-# Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
-
-# =====================================================================================
-
-"""
-15 - Maratona (ProblemId 2366, difficulty 5/10):
-"""
-
-
-# Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+# Time limit exceeded with: 5 changes after copilot and/or copilot chat and 0 manual changes
 
 
 # =====================================================================================
 
 """
-15 - Maratona (ProblemId 2366, difficulty 5/10):
+11 - Chinese Whispers (ProblemId 1448, difficulty 9/10):
+
+Every kid certainly played Chinese Whispers at least once with other kids. 
+It is a game in which one person whispers a message to another, 
+which is passed through a line of people until the last player announces the message to the entire group. 
+Little John invented a variation of this game.
+
+In this game, there are two teams and a judge. In each team, the kids play as in the original game: 
+each kid whispers the message to another, and the last kid announces the message he/she heard. 
+The initial message is told to the first kid of each team by the judge. 
+This message is the same for both teams. Also, this message contains n characters (letters, spaces, punctuation, etc. included). 
+The length of the message is known by all the kids, thus the messages announced by the last kids of each team also have n characters.
+
+The team that announces the most similar message to the original one, wins. 
+The "similarity" of a message is equal to the number of positions in which the character in the original
+message and the one in the announced message is the same. If this number is equal for both teams, 
+find the first position for which one team announced the correct character, and the other didn't. 
+If there's still a tie, the game result is a draw.
+
+For example, if the initial message was "O rato roeu a roupa do rei.", 
+the first team announced "O ator morreu, garoupa rei.", and the second team 
+announced "O pato moeu garoupa dorlei.", the second teams wins, because there are 21 positions in which the 
+character is the same for the second team, and only 9 positions for the first one.
+
+Like the ICPC judges, the judges of this game are lazy, too. They asked you to write a program that decides the winning team.
+
+Input
+The first line of the input contains an integer t, 1 ≤ t ≤ 1000, the number of instances that your program must process.
+
+Each instance is described by 3 lines. The first line contains the initial message. 
+The second line contains the message announced by the first team, and the third line 
+contains the message announced by the second team. All the messages will have at most 100 characters, 
+and the 3 messages will have the same length.
+
+Output
+For each instance, print "Instancia k", where k is the instance number. In the following line, 
+print "time W" (Portuguese for "team W"), where W = 1 if the first team wins, or W = 2 if the second team wins. 
+If the game result is a draw, print "empate" (Portuguese for "draw") instead. Print a blank line after each test case.
+
+Sample Input
+2
+O RATO ROEU A ROUPA DO REI.
+O ATOR MORREU, GAROUPA REI.
+O PATO MOEU GAROUPA DORLEI.
+IH EMPATOU!
+IH EMPATOU!
+IH EMPATOU!
+
+Sample Output
+Instancia 1
+time 2
+
+Instancia 2
+empate
 """
 
+def chinese_whispers(t, instances):
+    results = []
+    for i in range(t):
+        original, team1, team2 = instances[i]
+        similarity1 = sum(1 for a, b in zip(original, team1) if a == b)
+        similarity2 = sum(1 for a, b in zip(original, team2) if a == b)
+        if similarity1 > similarity2:
+            results.append('time 1')
+        elif similarity2 > similarity1:
+            results.append('time 2')
+        else:
+            for j in range(len(original)):
+                if original[j] == team1[j] and original[j] != team2[j]:
+                    results.append('time 1')
+                    break
+                elif original[j] == team2[j] and original[j] != team1[j]:
+                    results.append('time 2')
+                    break
+            else:
+                results.append('empate')
+    return results
 
-# Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+def main():
+    import sys
+    input = sys.stdin.read
+    data = input().strip().split('\n')
+    
+    index = 0
+    results = []
+    
+    while index < len(data):
+        t = int(data[index])
+        if t == 0:
+            break
+        index += 1
+        instances = []
+        for _ in range(t):
+            original = data[index]
+            team1 = data[index + 1]
+            team2 = data[index + 2]
+            instances.append((original, team1, team2))
+            index += 3
+        results.extend(chinese_whispers(t, instances))
+    
+    for i, result in enumerate(results, start=1):
+        print(f"Instancia {i}")
+        print(result)
+        print()
 
-
-# =====================================================================================
-
-"""
-15 - Maratona (ProblemId 2366, difficulty 5/10):
-"""
-
-
-# Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
-
-# =====================================================================================
-
-"""
-15 - Maratona (ProblemId 2366, difficulty 5/10):
-"""
-
-
-# Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+if __name__ == "__main__":
+    main()
