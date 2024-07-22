@@ -300,14 +300,16 @@ may contain between 1 and 50 inclusive characters.
 Output
 The output should contain the set of input strings ordered by the length of strings.A blank space must be printed between two words.
 
-Sample Input
+Sample Input:
+
 4
 Top Coder comp Wedn at midnight
 one three five
 I love Cpp
 sj a sa df r e w f d s a v c x z sd fd
 
-Sample Output
+Sample Output:
+
 midnight Coder comp Wedn Top at
 three five one
 love Cpp I
@@ -318,12 +320,15 @@ function sortStringsByLength(input) {
     // Split the input into lines
     const lines = input.trim().split('\n');
     
+    // The first line contains the number of sets
+    const N = parseInt(lines[0], 10);
+    
     // Initialize an array to hold the sorted sets
     const sortedSets = [];
     
-    // Process each line of strings
-    for (let i = 0; i < lines.length; i++) {
-        // Split the line into individual words
+    // Process each set of strings
+    for (let i = 1; i <= N; i++) {
+        // Split the set into individual words
         const words = lines[i].split(' ');
         
         // Sort the words by their length, maintaining original order for equal lengths
@@ -341,25 +346,164 @@ const input = require('fs').readFileSync('/dev/stdin', 'utf8');
 sortStringsByLength(input);
 
 
-// Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+// 95% Correct answers with: 6 changes after copilot and/or copilot chat and 0 manual changes
 
 // =====================================================================================
 
 /*
-15 - Maratona (ProblemId 2366, difficulty 5/10):
+5 - Parenthesis Balance I (ProblemId 1068, difficulty 5/10):
+
+Considering an expression with parenthesis, print a message informing if the among of parenthesis is correct or incorrect, 
+without considering the rest of the expression. Example:
+
+
+a+(b*c)-2-a        is correct
+(a+b*(2-c)-2+a)*2  is correct
+
+when
+
+(a*b-(2+c)         is incorrect
+2*(3-a))           is incorrect
+)3+b*(2-c)(        is incorrect
+
+Resuming, all closing parenthesis must have an open parenthesis and it's not possible a closing parenthesis without a 
+previous open parenthesis, and the quantity of closing and open parenthesis must be the same.
+
+Input
+The input file contains N expressions (1 <= N <= 10000), each one with up to 1000 characters. 
+
+Output
+The output must be correct or incorrect for each test case according with above rules.
+
+Input Sample:
+
+a+(b*c)-2-a 
+(a+b*(2-c)-2+a)*2 
+(a*b-(2+c) 
+2*(3-a))  
+)3+b*(2-c)( 
+
+Output Sample:
+
+correct
+correct
+incorrect
+incorrect
+incorrect
 */
 
+function checkParentheses(expressions) {
+    return expressions.map(expression => {
+        let balance = 0;
+        for (let char of expression) {
+            if (char === '(') {
+                balance++;
+            } else if (char === ')') {
+                balance--;
+                if (balance < 0) {
+                    return "incorrect";
+                }
+            }
+        }
+        return balance === 0 ? "correct" : "incorrect";
+    });
+}
 
-// Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+const input = require('fs').readFileSync('/dev/stdin', 'utf8');
+const expressions = input.trim().split('\n');
+
+const result = checkParentheses(expressions);
+
+console.log(result.join('\n'));
+
+
+// Correct answer with: 2 changes after copilot and/or copilot chat and 1 manual changes
 
 // =====================================================================================
 
 /*
-15 - Maratona (ProblemId 2366, difficulty 5/10):
+6 - Tell me the Frequencies! (ProblemId 1251, difficulty 6/10):
+
+Given a line of text you will have to find out the frequencies of the ASCII characters present in it. 
+The given lines will contain none of the first 32 or last 128 ASCII characters. 
+Of course lines may end with ‘\n’ and ‘\r’ but always keep those out of consideration.
+
+Input
+Several lines of text are given as input. Each line of text is considered as a single input. 
+Maximum length of each line is 1000 characters.
+
+Output
+Print the ASCII value of the ASCII characters which are present and their frequency according to the given format below. 
+A blank line should separate each set of output. Print the ASCII characters in the ascending order of their frequencies. 
+If two characters are present the same time print the information of the ASCII character with higher ASCII value first. 
+Input is terminated by end of file.
+
+Sample Input:
+
+AAABBC
+122333
+
+Sample Output:
+
+67 1
+66 2
+65 3
+
+49 1
+50 2
+51 3
 */
 
+const readline = require('readline');
 
-// Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+    terminal: false
+});
+
+let inputLines = [];
+
+rl.on('line', (line) => {
+    inputLines.push(line);
+});
+
+rl.on('close', () => {
+    inputLines.forEach((line, index) => {
+        let frequency = {};
+
+        // Calculate frequency of each character
+        for (let char of line) {
+            let ascii = char.charCodeAt(0);
+            if (frequency[ascii]) {
+                frequency[ascii]++;
+            } else {
+                frequency[ascii] = 1;
+            }
+        }
+
+        // Convert frequency object to array and sort
+        let sortedFrequencies = Object.keys(frequency).map(Number).sort((a, b) => {
+            if (frequency[a] === frequency[b]) {
+                return b - a; // Higher ASCII value first if frequencies are the same
+            }
+            return frequency[a] - frequency[b]; // Ascending order of frequencies
+        });
+
+        // Print the result for the current line
+        sortedFrequencies.forEach(ascii => {
+            console.log(`${ascii} ${frequency[ascii]}`);
+        });
+
+        // Print a blank line to separate sets of output
+        if (index < inputLines.length - 1) {
+            console.log('');
+        }
+    });
+});
+
+
+// Correct answer with: 2 changes after copilot and/or copilot chat and 0 manual changes
 
 // =====================================================================================
 

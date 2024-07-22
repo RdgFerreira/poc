@@ -299,40 +299,193 @@ may contain between 1 and 50 inclusive characters.
 Output
 The output should contain the set of input strings ordered by the length of strings.A blank space must be printed between two words.
 
-Sample Input
+Sample Input:
+
 4
 Top Coder comp Wedn at midnight
 one three five
 I love Cpp
 sj a sa df r e w f d s a v c x z sd fd
 
-Sample Output
+Sample Output:
+
 midnight Coder comp Wedn Top at
 three five one
 love Cpp I
 sj sa df sd fd a r e w f d s a v c x z
 """
 
+def sort_strings_by_length():
+    import sys
+    input = sys.stdin.read
+    data = input().strip().split('\n')
+    
+    N = int(data[0])
+    sets_of_strings = data[1:N+1]
+    
+    for string_set in sets_of_strings:
+        words = string_set.split()
+        sorted_words = sorted(words, key=lambda x: (len(x), words.index(x)))
+        print(" ".join(sorted_words))
 
-# Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+if __name__ == "__main__":
+    sort_strings_by_length()
+
+
+# 95% Correct answers with: 4 changes after copilot and/or copilot chat and 0 manual changes
 
 # =====================================================================================
 
 """
-15 - Maratona (ProblemId 2366, difficulty 5/10):
+5 - Parenthesis Balance I (ProblemId 1068, difficulty 5/10):
+
+Considering an expression with parenthesis, print a message informing if the among of parenthesis is correct or incorrect, 
+without considering the rest of the expression. Example:
+
+
+a+(b*c)-2-a        is correct
+(a+b*(2-c)-2+a)*2  is correct
+
+when
+
+(a*b-(2+c)         is incorrect
+2*(3-a))           is incorrect
+)3+b*(2-c)(        is incorrect
+
+Resuming, all closing parenthesis must have an open parenthesis and it's not possible a closing parenthesis without a 
+previous open parenthesis, and the quantity of closing and open parenthesis must be the same.
+
+Input
+The input file contains N expressions (1 <= N <= 10000), each one with up to 1000 characters. 
+
+Output
+The output must be correct or incorrect for each test case according with above rules.
+
+Input Sample:
+
+a+(b*c)-2-a 
+(a+b*(2-c)-2+a)*2 
+(a*b-(2+c) 
+2*(3-a))  
+)3+b*(2-c)( 
+
+Output Sample:
+
+correct
+correct
+incorrect
+incorrect
+incorrect
 """
 
+def check_parenthesis_balance(expressions):
+    results = []
+    for expression in expressions:
+        stack = []
+        for char in expression:
+            if char == '(':
+                stack.append(char)
+            elif char == ')':
+                if stack:
+                    stack.pop()
+                else:
+                    results.append("incorrect")
+                    break
+        else:
+            if stack:
+                results.append("incorrect")
+            else:
+                results.append("correct")
+    return results
 
-# Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+# Read lines until EOF
+expressions = []
+while True:
+    try:
+        line = input()
+        if line:
+            expressions.append(line)
+    except EOFError:
+        break
+
+# Get the results
+results = check_parenthesis_balance(expressions)
+
+# Print the results
+for result in results:
+    print(result)
+
+# Correct answer with: 1 changes after copilot and/or copilot chat and 1 manual changes
 
 # =====================================================================================
 
 """
-15 - Maratona (ProblemId 2366, difficulty 5/10):
+6 - Tell me the Frequencies! (ProblemId 1251, difficulty 6/10):
+
+Given a line of text you will have to find out the frequencies of the ASCII characters present in it. 
+The given lines will contain none of the first 32 or last 128 ASCII characters. 
+Of course lines may end with ‘\n’ and ‘\r’ but always keep those out of consideration.
+
+Input
+Several lines of text are given as input. Each line of text is considered as a single input. 
+Maximum length of each line is 1000 characters.
+
+Output
+Print the ASCII value of the ASCII characters which are present and their frequency according to the given format below. 
+A blank line should separate each set of output. Print the ASCII characters in the ascending order of their frequencies. 
+If two characters are present the same time print the information of the ASCII character with higher ASCII value first. 
+Input is terminated by end of file.
+
+Sample Input:
+
+AAABBC
+122333
+
+Sample Output:
+
+67 1
+66 2
+65 3
+
+49 1
+50 2
+51 3
 """
 
+import sys
+from collections import Counter
 
-# Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+def process_line(line):
+    # Count frequencies of each character in the line
+    counter = Counter(line)
+    
+    # Remove newline characters from the counter
+    if '\n' in counter:
+        del counter['\n']
+    if '\r' in counter:
+        del counter['\r']
+    
+    # Sort characters by frequency (ascending) and ASCII value (descending)
+    sorted_chars = sorted(counter.items(), key=lambda item: (item[1], -ord(item[0])))
+    
+    # Print the results
+    for char, freq in sorted_chars:
+        print(f"{ord(char)} {freq}")
+
+def main():
+    input_lines = sys.stdin.read().splitlines()
+    
+    first_line = True
+    for line in input_lines:
+        if not first_line:
+            print()  # Print a blank line to separate outputs
+        process_line(line)
+        first_line = False
+
+if __name__ == "__main__":
+    main()
+    
+# Correct answer with: 2 changes after copilot and/or copilot chat and 0 manual changes
 
 # =====================================================================================
 
