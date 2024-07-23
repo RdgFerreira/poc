@@ -490,11 +490,114 @@ if __name__ == "__main__":
 # =====================================================================================
 
 """
-15 - Maratona (ProblemId 2366, difficulty 5/10):
+7 - Sort! Sort!! And Sort!!! (ProblemId  1252, difficulty 7/10):
+
+Hmm! Here you are asked to do a simple sorting. You will be given N numbers and a positive integer M. 
+You will have to sort the N numbers in ascending order of their modulo M value. 
+If there is a tie between an odd number and an even number (that is their modulo M value is the same) 
+then the odd number will precede the even number. If there is a tie between two odd numbers 
+(that is their modulo M value is the same) then the larger odd number will precede the smaller odd number and 
+if there is a tie between two even numbers (that is their modulo M value is the same) then the smaller even number 
+will precede the larger even number. For remainder value of negative numbers follow the rule of C programming language: 
+A negative number can never have modulus greater than zero. E.g. -100 MOD 3 = -1, -100 MOD 4 = 0 etc.
+
+Input
+The input file contains many sets of inputs. Each set starts with two integers N (0 < N ≤ 10000) and M (0 < M ≤ 10000) 
+which denotes how many numbers are within this set. Each of the next N lines contains one number each. 
+These numbers should all fit in 32-bit signed integer. Input is terminated by a line containing two zeroes.
+
+Output
+The first line of each set contains the value of N and M. The next N lines contain N numbers, sorted according 
+to the rules mentioned above. Print the last two zeroes of the input file in the output file also.
+
+Sample Input
+15 3
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+3 3
+9
+12
+10
+0 0
+
+Sample Output
+15 3
+15
+9
+3
+6
+12
+13
+7
+1
+4
+10
+11
+5
+2
+8
+14
+3 3
+9
+12
+10
+0 0
 """
 
+def custom_sort(numbers, M):
+    def sort_key(x):
+        mod = x % M
+        is_odd = x % 2 != 0
+        return (mod, not is_odd, -x if is_odd else x)
+    
+    return sorted(numbers, key=sort_key)
 
-# Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+def main():
+    import sys
+    input = sys.stdin.read
+    data = input().strip().split()
+    
+    index = 0
+    result = []
+    
+    while index < len(data):
+        N = int(data[index])
+        M = int(data[index + 1])
+        index += 2
+        
+        if N == 0 and M == 0:
+            result.append("0 0")
+            break
+        
+        numbers = []
+        for _ in range(N):
+            numbers.append(int(data[index]))
+            index += 1
+        
+        sorted_numbers = custom_sort(numbers, M)
+        result.append(f"{N} {M}")
+        result.extend(map(str, sorted_numbers))
+    
+    print("\n".join(result))
+
+if __name__ == "__main__":
+    main()
+
+
+# 95% Correct answers with: 4 changes after copilot and/or copilot chat and 0 manual changes
 
 # =====================================================================================
 
