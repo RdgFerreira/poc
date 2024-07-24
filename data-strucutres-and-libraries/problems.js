@@ -638,8 +638,84 @@ console.log(output);
 // =====================================================================================
 
 /*
-15 - Maratona (ProblemId 2366, difficulty 5/10):
+8 - Where is the Marble? (ProblemId 1025, difficulty 8/10):
+
+Raju and Meena love to play with Marbles. They have a lot of marbles with numbers written on them. In the beginning, Raju would place the marbles one after another in ascending order of the numbers written on them. Then, Meena would ask Raju to find the first marble with a certain number. She would count 1...2...3. Raju gets one point for correct answer, and Meena gets the point if Raju fails. After some fixed number of attempts, the game ends and the player with maximum points wins. Today it's your chance to play as Raju. Being a smart kid, you have in your advantage the computer. But don't underestimate Meena, she wrote a program to keep track how much time you're taking to give all the answers. So now you have to write a program, which will help you in your role as Raju.
+
+Input
+There can be multiple test cases. The total number of test cases is less than 65. Each test case consists begins with 2 integers: N the number of marbles and Q the number of queries Meena would make. The next N lines would contain the numbers written on the N marbles. These marble numbers will not come in any particular order. Following Q lines will have Q queries. Be assured, none of the input numbers are greater than 10000 and none of them are negative.
+
+Input is terminated by a test case where N = 0 and Q = 0.
+Output
+For each test case output there must be a serial number of the test case. For each query, write one line of output. The format of this line will depend on whether the number is consulted or not written in one of the marbles.
+
+The two different formats are described below:
+'x found at y', if the first marble with number x was found at position y. Positions are numbered 1, 2,..., N.
+'x not found', if the marble with number x is not present.
+
+Input Sample:
+4 1
+2
+3
+5
+1
+5
+5 2
+1
+3
+3
+3
+1
+2
+3
+0 0
+
+Output Sample:
+CASE# 1:
+5 found at 4
+CASE# 2:
+2 not found
+3 found at 3
 */
+
+function findMarbles(input) {
+    const lines = input.trim().split('\n');
+    let index = 0;
+    let caseNumber = 1;
+    let result = [];
+
+    while (index < lines.length) {
+        const [N, Q] = lines[index].split(' ').map(Number);
+        if (N === 0 && Q === 0) {
+            break;
+        }
+
+        const marbles = lines.slice(index + 1, index + N + 1).map(Number);
+        const queries = lines.slice(index + N + 1, index + N + Q + 1).map(Number);
+
+        marbles.sort((a, b) => a - b);
+
+        result.push(`CASE# ${caseNumber}:`);
+        for (let query of queries) {
+            const position = marbles.indexOf(query);
+            if (position !== -1) {
+                result.push(`${query} found at ${position + 1}`);
+            } else {
+                result.push(`${query} not found`);
+            }
+        }
+
+        caseNumber++;
+        index += N + Q + 1;
+    }
+
+    return result.join('\n');
+}
+
+const input = require('fs').readFileSync('/dev/stdin', 'utf8');
+const output = findMarbles(input);
+console.log(output);
+
 
 
 // Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
@@ -647,17 +723,234 @@ console.log(output);
 // =====================================================================================
 
 /*
-15 - Maratona (ProblemId 2366, difficulty 5/10):
+9 - Spurs Rocks (ProblemId 1303, difficulty 9/10):
+
+The San Antonio is the city team in the NBA. It has been the champion of its conference several times and revealed several excellent players.
+
+
+In a basketball championship all the teams play each other in a single round. 
+A win is worth two points and a defeat is worth one point (there are no draws in basketball). 
+In case of ties the team with the best "average basket" gets the lead. 
+The "average basket"is given by the ratio between the number of 
+points scored by the team divided by the number of points received 
+(in the unlikely event of a team winning all league games without losing any baskets, 
+the basket average is given by the average number of points scored). 
+If there is still a tie, the team that scored more points takes advantage. 
+And if the ties persists, the team with the lowest number of entried in the league gets a better position.
+
+
+Your task in this problem is to make a program that receives the results of the games of the championship and prints the final rank.
+
+Input
+There are several test cases. For each instance is given the number 0 ≤ n ≤ 100 of teams in the league. 
+The value n = 0 indicates the end of dataset. Next there are n (n-1) / 2 lines indicating the results of the matches. 
+In each one of these lines there are four integers x, y, z and w. 
+The integers x and z belong to the interval {1, 2,. . . , n} and represent the registration numbers of the teams in the league. 
+The integers y and w are the number of points the team x and z score in the match described.
+
+Output
+For each test case solved, you should print the message "Instancia h" where h is an integer, and increasing sequentially from 1. 
+On the next line you should print a permutation of the integers from 1 to n representing the championship rank.
+A blank space should be printed between each one of these integers and a blank line must be printed between two outputs (test cases).
+
+Sample Input:
+5
+1 102 2 62
+1 128 3 127
+1 144 4 80
+1 102 5 101
+2 62 3 61
+2 100 4 80
+2 88 5 82
+3 79 4 90
+3 87 5 100
+4 110 5 99
+0
+
+Sample Output:
+Instancia 1
+1 2 4 5 3
 */
 
+function solve(input) {
+    let lines = input.trim().split('\n');
+    let instance = 1;
+    let index = 0;
 
-// Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+    while (index < lines.length) {
+        let n = parseInt(lines[index]);
+        if (n === 0) break;
+        index++;
+
+        let teams = Array.from({ length: n }, () => ({
+            points: 0,
+            scored: 0,
+            received: 0,
+            wins: 0,
+            games: 0
+        }));
+
+        for (let i = 0; i < (n * (n - 1)) / 2; i++) {
+            let [x, y, z, w] = lines[index].split(' ').map(Number);
+            index++;
+
+            teams[x - 1].scored += y;
+            teams[x - 1].received += w;
+            teams[x - 1].games++;
+            teams[z - 1].scored += w;
+            teams[z - 1].received += y;
+            teams[z - 1].games++;
+
+            if (y > w) {
+                teams[x - 1].points += 2;
+                teams[x - 1].wins++;
+                teams[z - 1].points += 1;
+            } else {
+                teams[z - 1].points += 2;
+                teams[z - 1].wins++;
+                teams[x - 1].points += 1;
+            }
+        }
+
+        teams.forEach(team => {
+            team.averageBasket = team.received === 0 ? team.scored : team.scored / team.received;
+        });
+
+        teams.sort((a, b) => {
+            if (b.points !== a.points) return b.points - a.points;
+            if (b.averageBasket !== a.averageBasket) return b.averageBasket - a.averageBasket;
+            if (b.scored !== a.scored) return b.scored - a.scored;
+            return a.games - b.games;
+        });
+
+        let result = `Instancia ${instance}\n`;
+        result += teams.map((_, i) => i + 1).join(' ') + '\n';
+        console.log(result);
+
+        instance++;
+    }
+}
+
+const input = require('fs').readFileSync('/dev/stdin', 'utf8');
+solve(input);
+
+
+// 95% Correct answers with: 5 changes after copilot and/or copilot chat and 0 manual changes
 
 // =====================================================================================
 
 /*
-15 - Maratona (ProblemId 2366, difficulty 5/10):
+10 - Drought (ProblemId 1023, difficulty 10/10):
+
+Due to the continuous drought that happened recently in some regions of Brazil, 
+the Federal Government created an agency to assess the consumption of these regions in order to 
+verify the behavior of the population at the time of rationing. 
+This agency will take some cities (for sampling) and it will verify the consumption of each of the 
+townspeople and the average consumption per inhabitant of each town.
+
+Input:
+The input contains a number of test's cases. 
+The first line of each case of test contains an integer N (1 ≤ N ≤ 1 * 10 6), indicating the amount of properties. 
+The following N lines contains a pair of values X (1 ≤ X ≤ 10) and Y ( 1 ≤ Y ≤ 200) indicating the number of residents of each property and 
+its total consumption (m3). Surely, no residence consumes more than 200 m3 per month. The input's end is represented by zero.
+
+Output:
+For each case of test you must present the message “Cidade# n:”, 
+where n is the number of the city in the sequence (1, 2, 3, ...), 
+and then you must list in ascending order of consumption, the people's amount followed by a hyphen and the consumption of these people, 
+rounding the value down. In the third line of output you should present the consumption per person in that town, with two decimal
+places without rounding, considering the total real consumption. Print a blank line between two consecutives test's cases. 
+There is no blank line at the end of output.
+
+Input Sample:
+3
+3 22
+2 11
+3 39
+5
+1 25
+2 20
+3 31
+2 40
+6 70
+2
+1 1
+3 2
+0
+
+Output Sample:
+Cidade# 1:
+2-5 3-7 3-13
+Consumo medio: 9.00 m3.
+
+Cidade# 2:
+5-10 6-11 2-20 1-25
+Consumo medio: 13.28 m3.
+
+Cidade# 3:
+3-0 1-1
+Consumo medio: 0.75 m3.
 */
 
+const readline = require('readline');
 
-// Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
+
+let inputLines = [];
+let cityCount = 1;
+
+rl.on('line', (line) => {
+    if (line.trim() === '0') {
+        processInput();
+        rl.close();
+    } else {
+        inputLines.push(line.trim());
+    }
+});
+
+function processInput() {
+    let index = 0;
+
+    while (index < inputLines.length) {
+        let N = parseInt(inputLines[index]);
+        index++;
+        if (N === 0) break;
+
+        let properties = [];
+
+        for (let i = 0; i < N; i++) {
+            let [X, Y] = inputLines[index].split(' ').map(Number);
+            properties.push({ residents: X, consumption: Y });
+            index++;
+        }
+
+        properties.sort((a, b) => {
+            let consumptionA = Math.floor(a.consumption / a.residents);
+            let consumptionB = Math.floor(b.consumption / b.residents);
+            if (consumptionA === consumptionB) {
+                return a.residents - b.residents;
+            }
+            return consumptionA - consumptionB;
+        });
+
+        let totalResidents = properties.reduce((sum, prop) => sum + prop.residents, 0);
+        let totalConsumption = properties.reduce((sum, prop) => sum + prop.consumption, 0);
+        let averageConsumption = totalConsumption / totalResidents;
+
+        console.log(`Cidade# ${cityCount}:`);
+        let output = properties.map(prop => `${prop.residents}-${Math.floor(prop.consumption / prop.residents)}`).join(' ');
+        console.log(output);
+        console.log(`Consumo medio: ${averageConsumption.toFixed(2)} m3.`);
+
+        cityCount++;
+        if (index < inputLines.length) {
+            console.log('');
+        }
+    }
+}
+
+
+// Time limit exceeded with: 7 changes after copilot and/or copilot chat and 0 manual changes

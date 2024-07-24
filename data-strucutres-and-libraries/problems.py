@@ -602,26 +602,324 @@ if __name__ == "__main__":
 # =====================================================================================
 
 """
-15 - Maratona (ProblemId 2366, difficulty 5/10):
+8 - Where is the Marble? (ProblemId 1025, difficulty 8/10):
+
+Raju and Meena love to play with Marbles. They have a lot of marbles with numbers written on them. In the beginning, Raju would place the marbles one after another in ascending order of the numbers written on them. Then, Meena would ask Raju to find the first marble with a certain number. She would count 1...2...3. Raju gets one point for correct answer, and Meena gets the point if Raju fails. After some fixed number of attempts, the game ends and the player with maximum points wins. Today it's your chance to play as Raju. Being a smart kid, you have in your advantage the computer. But don't underestimate Meena, she wrote a program to keep track how much time you're taking to give all the answers. So now you have to write a program, which will help you in your role as Raju.
+
+Input
+There can be multiple test cases. The total number of test cases is less than 65. Each test case consists begins with 2 integers: N the number of marbles and Q the number of queries Meena would make. The next N lines would contain the numbers written on the N marbles. These marble numbers will not come in any particular order. Following Q lines will have Q queries. Be assured, none of the input numbers are greater than 10000 and none of them are negative.
+
+Input is terminated by a test case where N = 0 and Q = 0.
+Output
+For each test case output there must be a serial number of the test case. For each query, write one line of output. The format of this line will depend on whether the number is consulted or not written in one of the marbles.
+
+The two different formats are described below:
+'x found at y', if the first marble with number x was found at position y. Positions are numbered 1, 2,..., N.
+'x not found', if the marble with number x is not present.
+
+Input Sample:
+4 1
+2
+3
+5
+1
+5
+5 2
+1
+3
+3
+3
+1
+2
+3
+0 0
+
+Output Sample:
+CASE# 1:
+5 found at 4
+CASE# 2:
+2 not found
+3 found at 3
 """
 
+def find_first_occurrence(marbles, query):
+    low, high = 0, len(marbles) - 1
+    result = -1
+    while low <= high:
+        mid = (low + high) // 2
+        if marbles[mid] == query:
+            result = mid
+            high = mid - 1  # Look for earlier occurrences
+        elif marbles[mid] < query:
+            low = mid + 1
+        else:
+            high = mid - 1
+    return result
 
-# Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+def solve():
+    import sys
+    input = sys.stdin.read
+    data = input().split()
+    
+    index = 0
+    case_number = 1
+    
+    while True:
+        N = int(data[index])
+        Q = int(data[index + 1])
+        index += 2
+        
+        if N == 0 and Q == 0:
+            break
+        
+        marbles = []
+        for _ in range(N):
+            marbles.append(int(data[index]))
+            index += 1
+        
+        marbles.sort()
+        
+        queries = []
+        for _ in range(Q):
+            queries.append(int(data[index]))
+            index += 1
+        
+        print(f"CASE# {case_number}:")
+        for query in queries:
+            position = find_first_occurrence(marbles, query)
+            if position != -1:
+                print(f"{query} found at {position + 1}")
+            else:
+                print(f"{query} not found")
+        
+        case_number += 1
+
+if __name__ == "__main__":
+    solve()
+
+
+# Correct answer with: 2 changes after copilot and/or copilot chat and 0 manual changes
 
 # =====================================================================================
 
 """
-15 - Maratona (ProblemId 2366, difficulty 5/10):
+9 - Spurs Rocks (ProblemId 1303, difficulty 9/10):
+
+The San Antonio is the city team in the NBA. It has been the champion of its conference several times and revealed several excellent players.
+
+
+In a basketball championship all the teams play each other in a single round. 
+A win is worth two points and a defeat is worth one point (there are no draws in basketball). 
+In case of ties the team with the best "average basket" gets the lead. 
+The "average basket"is given by the ratio between the number of 
+points scored by the team divided by the number of points received 
+(in the unlikely event of a team winning all league games without losing any baskets, 
+the basket average is given by the average number of points scored). 
+If there is still a tie, the team that scored more points takes advantage. 
+And if the ties persists, the team with the lowest number of entried in the league gets a better position.
+
+
+Your task in this problem is to make a program that receives the results of the games of the championship and prints the final rank.
+
+Input
+There are several test cases. For each instance is given the number 0 ≤ n ≤ 100 of teams in the league. 
+The value n = 0 indicates the end of dataset. Next there are n (n-1) / 2 lines indicating the results of the matches. 
+In each one of these lines there are four integers x, y, z and w. 
+The integers x and z belong to the interval {1, 2,. . . , n} and represent the registration numbers of the teams in the league. 
+The integers y and w are the number of points the team x and z score in the match described.
+
+Output
+For each test case solved, you should print the message "Instancia h" where h is an integer, and increasing sequentially from 1. 
+On the next line you should print a permutation of the integers from 1 to n representing the championship rank.
+A blank space should be printed between each one of these integers and a blank line must be printed between two outputs (test cases).
+
+Sample Input:
+5
+1 102 2 62
+1 128 3 127
+1 144 4 80
+1 102 5 101
+2 62 3 61
+2 100 4 80
+2 88 5 82
+3 79 4 90
+3 87 5 100
+4 110 5 99
+0
+
+Sample Output:
+Instancia 1
+1 2 4 5 3
 """
 
+def process_championship():
+    import sys
+    input = sys.stdin.read
+    data = input().split()
+    
+    index = 0
+    instance = 1
+    
+    while True:
+        n = int(data[index])
+        index += 1
+        if n == 0:
+            break
+        
+        teams = {i: {'points': 0, 'scored': 0, 'received': 0, 'games': 0} for i in range(1, n + 1)}
+        
+        for _ in range(n * (n - 1) // 2):
+            x = int(data[index])
+            y = int(data[index + 1])
+            z = int(data[index + 2])
+            w = int(data[index + 3])
+            index += 4
+            
+            teams[x]['scored'] += y
+            teams[x]['received'] += w
+            teams[x]['games'] += 1
+            teams[z]['scored'] += w
+            teams[z]['received'] += y
+            teams[z]['games'] += 1
+            
+            if y > w:
+                teams[x]['points'] += 2
+                teams[z]['points'] += 1
+            else:
+                teams[z]['points'] += 2
+                teams[x]['points'] += 1
+        
+        def average_basket(team):
+            if teams[team]['received'] == 0:
+                return teams[team]['scored']
+            return teams[team]['scored'] / teams[team]['received']
+        
+        ranking = sorted(teams.keys(), key=lambda t: (
+            -teams[t]['points'],
+            -average_basket(t),
+            -teams[t]['scored'],
+            teams[t]['games']
+        ))
+        
+        print(f"Instancia {instance}")
+        print(" ".join(map(str, ranking)))
+        
+        instance += 1
+        if data[index] != '0':
+            print("")
 
-# Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+if __name__ == "__main__":
+    process_championship()
+
+
+
+# Correct answer with: 4 changes after copilot and/or copilot chat and 1 manual changes
 
 # =====================================================================================
 
 """
-15 - Maratona (ProblemId 2366, difficulty 5/10):
+10 - Drought (ProblemId 1023, difficulty 10/10):
+
+Due to the continuous drought that happened recently in some regions of Brazil, 
+the Federal Government created an agency to assess the consumption of these regions in order to 
+verify the behavior of the population at the time of rationing. 
+This agency will take some cities (for sampling) and it will verify the consumption of each of the 
+townspeople and the average consumption per inhabitant of each town.
+
+Input:
+The input contains a number of test's cases. 
+The first line of each case of test contains an integer N (1 ≤ N ≤ 1 * 10 6), indicating the amount of properties. 
+The following N lines contains a pair of values X (1 ≤ X ≤ 10) and Y ( 1 ≤ Y ≤ 200) indicating the number of residents of each property and 
+its total consumption (m3). Surely, no residence consumes more than 200 m3 per month. The input's end is represented by zero.
+
+Output:
+For each case of test you must present the message “Cidade# n:”, 
+where n is the number of the city in the sequence (1, 2, 3, ...), 
+and then you must list in ascending order of consumption, the people's amount followed by a hyphen and the consumption of these people, 
+rounding the value down. In the third line of output you should present the consumption per person in that town, with two decimal
+places without rounding, considering the total real consumption. Print a blank line between two consecutives test's cases. 
+There is no blank line at the end of output.
+
+Input Sample:
+3
+3 22
+2 11
+3 39
+5
+1 25
+2 20
+3 31
+2 40
+6 70
+2
+1 1
+3 2
+0
+
+Output Sample:
+Cidade# 1:
+2-5 3-7 3-13
+Consumo medio: 9.00 m3.
+
+Cidade# 2:
+5-10 6-11 2-20 1-25
+Consumo medio: 13.28 m3.
+
+Cidade# 3:
+3-0 1-1
+Consumo medio: 0.75 m3.
 """
+
+def solve_drought_problem():
+    import sys
+    input = sys.stdin.read
+    data = input().strip().split('\n')
+    
+    index = 0
+    city_number = 1
+    
+    while index < len(data):
+        N = int(data[index])
+        if N == 0:
+            break
+        
+        index += 1
+        properties = []
+        
+        for _ in range(N):
+            X, Y = map(int, data[index].split())
+            properties.append((X, Y))
+            index += 1
+        
+        # Sort properties by consumption per person (Y / X)
+        properties.sort(key=lambda p: (p[1] // p[0], p[0]))
+        
+        # Calculate total residents and total consumption
+        total_residents = sum(p[0] for p in properties)
+        total_consumption = sum(p[1] for p in properties)
+        
+        # Print city number
+        print(f"Cidade# {city_number}:")
+        
+        # Print sorted properties
+        print(" ".join(f"{p[0]}-{p[1] // p[0]}" for p in properties))
+        
+        # Print average consumption per person
+        average_consumption = total_consumption / total_residents
+        print(f"Consumo medio: {average_consumption:.2f} m3.")
+        
+        # Print a blank line between test cases
+        if index < len(data) and int(data[index]) != 0:
+            print()
+        
+        city_number += 1
+
+# To run the function, you would typically call solve_drought_problem()
+# and provide the input via standard input (stdin).
+
+if __name__ == "__main__":
+    solve_drought_problem()
+    
 
 
 # Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
