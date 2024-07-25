@@ -870,8 +870,10 @@ Cidade# 3:
 Consumo medio: 0.75 m3.
 """
 
-def solve_drought_problem():
-    import sys
+import sys
+import math
+
+def process_input():
     input = sys.stdin.read
     data = input().strip().split('\n')
     
@@ -885,41 +887,33 @@ def solve_drought_problem():
         
         index += 1
         properties = []
+        total_consumption = 0
+        total_residents = 0
         
         for _ in range(N):
             X, Y = map(int, data[index].split())
-            properties.append((X, Y))
+            properties.append((X, Y, Y // X))
+            total_consumption += Y
+            total_residents += X
             index += 1
         
-        # Sort properties by consumption per person (Y / X)
-        properties.sort(key=lambda p: (p[1] // p[0], p[0]))
+        properties.sort(key=lambda p: p[2])
         
-        # Calculate total residents and total consumption
-        total_residents = sum(p[0] for p in properties)
-        total_consumption = sum(p[1] for p in properties)
-        
-        # Print city number
         print(f"Cidade# {city_number}:")
+        city_number += 1
         
-        # Print sorted properties
-        print(" ".join(f"{p[0]}-{p[1] // p[0]}" for p in properties))
+        output = []
+        for residents, consumption, per_resident in properties:
+            output.append(f"{residents}-{per_resident}")
+        print(" ".join(output))
         
-        # Print average consumption per person
         average_consumption = total_consumption / total_residents
         print(f"Consumo medio: {average_consumption:.2f} m3.")
-        
-        # Print a blank line between test cases
-        if index < len(data) and int(data[index]) != 0:
-            print()
-        
-        city_number += 1
-
-# To run the function, you would typically call solve_drought_problem()
-# and provide the input via standard input (stdin).
+        print()
 
 if __name__ == "__main__":
-    solve_drought_problem()
+    process_input()
     
 
 
-# Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+# Time limit exceeded with: 7 changes after copilot and/or copilot chat and 0 manual changes
