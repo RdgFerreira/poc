@@ -497,17 +497,133 @@ console.log(processInput(input));
 // =====================================================================================
 
 /*
-15 - Maratona (ProblemId 2366, difficulty 5/10):
+9 - Array Transformer (ProblemId  1399, difficulty 9/10):
+
+Write a program to transform an array A[1], A[2],..., A[n] according to m instructions. Each instruction (L, R, v, p) means: 
+First, calculate how many numbers from A[L] to A[R] (inclusive) are strictly less than v, call this answer k. Then, change the value of A[p] to u*k/(R - L + 1), 
+here we use integer division (i.e. ignoring fractional part).
+
+Input
+The first line of input contains three integer n, m, u ( 1 ≤ n ≤ 300,000, 1 ≤ m ≤ 50,000, 1 ≤ u ≤ 1,000,000,000). 
+Each of the next n lines contains an integer A[i](1 ≤ A[i] ≤ u). Each of the next m lines contains an instruction consisting of 
+four integers L, R, v, p ( 1 ≤ L ≤ R ≤ n, 1 ≤ v ≤ u, 1 ≤ p ≤ n).
+
+Output
+Print n lines, one for each integer, the final array.
+
+Sample Input:
+10 1 11
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+2 8 6 10
+
+Sample Output:
+1
+2
+3
+4
+5
+6
+7
+8
+9
+6
 */
 
+function transformArray(n, m, u, A, instructions) {
+    let result = [];
+    let lessThan = Array(n + 1).fill(0);
 
-// Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+    for (let [L, R, v, p] of instructions) {
+        let k = lessThan[R] - lessThan[L - 1];
+        A[p - 1] = Math.floor(u * k / (R - L + 1));
+    }
+
+    return A;
+}
+
+function processInput(input) {
+    let lines = input.trim().split('\n');
+    let [n, m, u] = lines[0].split(' ').map(Number);
+    let A = lines.slice(1, n + 1).map(Number);
+    let instructions = lines.slice(n + 1).map(line => line.split(' ').map(Number));
+    let result = transformArray(n, m, u, A, instructions);
+    return result.join('\n');
+}
+
+const input = require('fs').readFileSync('/dev/stdin', 'utf8');
+console.log(processInput(input));
+
+
+// 90% correct answers with: 6 changes after copilot and/or copilot chat and 0 manual changes
 
 // =====================================================================================
 
 /*
-15 - Maratona (ProblemId 2366, difficulty 5/10):
+10 - Fibonacci Again! (ProblemId 1531, difficulty 10/10):
+
+The famous Fibonacci sequence can be defined as follows:
+
+Fib( 1 ) = Fib( 2 ) = 1
+Fib( N ) = Fib( N-1 ) + Fib( N-2 ), for N > 2
+Your task is simple, calculate the value of the remainder of Fib ( Fib ( N ) ) divided by M.
+
+Input
+The input consists of several test cases and ends with EOF. Each test case consists of a line with two integers N and M (1 ≤ N ≤ 109, 2 ≤ M ≤ 106).
+
+Output
+For each test case, print a line containing an integer equal to the remainder of Fib ( Fib ( N ) ) divided by M.
+
+Sample Input:
+1 100
+2 100
+3 100
+4 100
+5 100
+5 2
+6 100
+
+Sample Output:
+1
+1
+1
+2
+5
+1
+21
 */
 
+function fibonacci(n, m) {
+    let fib = [0, 1];
+    for (let i = 2; i <= n; i++) {
+        fib[i] = (fib[i - 1] + fib[i - 2]) % m;
+    }
+    return fib[n];
+}
 
-// Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+function processInput(input) {
+    let lines = input.trim().split('\n');
+    let results = [];
+
+    for (let line of lines) {
+        let [n, m] = line.split(' ').map(Number);
+        results.push(fibonacci(fibonacci(n, m), m));
+    }
+
+    return results.join('\n');
+}
+
+const input = require('fs').readFileSync('/dev/stdin', 'utf8');
+console.log(processInput(input));
+
+
+
+// Memory limit exceeded with: 5 changes after copilot and/or copilot chat and 0 manual changes

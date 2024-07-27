@@ -478,17 +478,140 @@ if __name__ == "__main__":
 # =====================================================================================
 
 """
-15 - Maratona (ProblemId 2366, difficulty 5/10):
+9 - Array Transformer (ProblemId  1399, difficulty 9/10):
+
+Write a program to transform an array A[1], A[2],..., A[n] according to m instructions. Each instruction (L, R, v, p) means: 
+First, calculate how many numbers from A[L] to A[R] (inclusive) are strictly less than v, call this answer k. Then, change the value of A[p] to u*k/(R - L + 1), 
+here we use integer division (i.e. ignoring fractional part).
+
+Input
+The first line of input contains three integer n, m, u ( 1 ≤ n ≤ 300,000, 1 ≤ m ≤ 50,000, 1 ≤ u ≤ 1,000,000,000). 
+Each of the next n lines contains an integer A[i](1 ≤ A[i] ≤ u). Each of the next m lines contains an instruction consisting of 
+four integers L, R, v, p ( 1 ≤ L ≤ R ≤ n, 1 ≤ v ≤ u, 1 ≤ p ≤ n).
+
+Output
+Print n lines, one for each integer, the final array.
+
+Sample Input:
+10 1 11
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+2 8 6 10
+
+Sample Output:
+1
+2
+3
+4
+5
+6
+7
+8
+9
+6
 """
 
+from bisect import bisect_left, insort, bisect_right
 
-# Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+def transform_array(n, m, u, array, instructions):
+    for L, R, v, p in instructions:
+        # Extract the subarray and sort it
+        subarray = sorted(array[L-1:R])
+        # Count how many numbers in subarray are strictly less than v using binary search
+        k = bisect_left(subarray, v)
+        # Calculate the new value for A[p-1]
+        new_value = u * k // (R - L + 1)
+        # Update A[p-1]
+        array[p-1] = new_value
+    return array
+
+# Read input
+import sys
+input = sys.stdin.read
+data = input().split()
+
+# Parse input
+n = int(data[0])
+m = int(data[1])
+u = int(data[2])
+array = [int(data[i + 3]) for i in range(n)]
+instructions = [(int(data[i]), int(data[i + 1]), int(data[i + 2]), int(data[i + 3])) for i in range(n + 3, len(data), 4)]
+
+# Transform the array
+result = transform_array(n, m, u, array, instructions)
+
+# Print the result
+for value in result:
+    print(value)
+
+# Correct answer with: 6 changes after copilot and/or copilot chat and 0 manual changes
 
 # =====================================================================================
 
 """
-15 - Maratona (ProblemId 2366, difficulty 5/10):
+10 - Fibonacci Again! (ProblemId 1531, difficulty 10/10):
+
+The famous Fibonacci sequence can be defined as follows:
+
+Fib( 1 ) = Fib( 2 ) = 1
+Fib( N ) = Fib( N-1 ) + Fib( N-2 ), for N > 2
+Your task is simple, calculate the value of the remainder of Fib ( Fib ( N ) ) divided by M.
+
+Input
+The input consists of several test cases and ends with EOF. Each test case consists of a line with two integers N and M (1 ≤ N ≤ 109, 2 ≤ M ≤ 106).
+
+Output
+For each test case, print a line containing an integer equal to the remainder of Fib ( Fib ( N ) ) divided by M.
+
+Sample Input:
+1 100
+2 100
+3 100
+4 100
+5 100
+5 2
+6 100
+
+Sample Output:
+1
+1
+1
+2
+5
+1
+21
 """
 
+def fibonacci_again(n, m):
+    def fibonacci(n):
+        a, b = 0, 1
+        for _ in range(n):
+            a, b = b, a + b
+        return a
+    
+    return fibonacci(fibonacci(n)) % m
 
-# Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+# Read input
+import sys
+input = sys.stdin.read
+data = input().strip().split()
+
+# Parse input
+test_cases = [(int(data[i]), int(data[i + 1])) for i in range(0, len(data), 2)]
+
+# Get results
+results = [fibonacci_again(n, m) for n, m in test_cases]
+
+# Print results
+for result in results:
+    print(result)
+
+# Time limit exceeded with: 5 changes after copilot and/or copilot chat and 0 manual changes
