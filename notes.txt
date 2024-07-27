@@ -20,6 +20,10 @@ Copilot struggles with complex string parsing and decoding
 
 Copilot solutions converges faster with higher difficulty problems
 
+Copilot can infer which algorithm to use in more complex problem categories, but struggles with executions
+
+Copilot is more prone to runtime errors when there is a big suggestion
+
 // =====================================================================================
 
 /*
