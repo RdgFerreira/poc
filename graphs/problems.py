@@ -531,38 +531,395 @@ if __name__ == "__main__":
 # =====================================================================================
 
 """
-6 - Maratona (ProblemId 2366, difficulty 6/10):
+6 - Even Obsession (ProblemId 1931, difficulty 6/10):
+
+Patricia is an excellent software developer, 
+but, as every brilliant person, she has some strange quirks. One of those is that everything she does has to be in even quantities. 
+Most often that quirk does not affect her, even though it may seem strange to others. Some examples: every day she has to eat an even number of meals; 
+during breakfast, she drinks two cups of coffee, eats two toasts and two slices of cheese; when she goes to the cinema she buys two tickets 
+(fortunately she always has a friend that goes with her); she takes two baths per day (or four, our six...).
+
+Some other times, however, that quirk makes the life of Patricia more difficult. For example, no one wants to travel by car with her because if she has to pay toll, the number of tolls she pays has to be an even number.
+
+Patricia lives in a country where all roads are two-way and have exactly one toll each. She needs to visit a client in a different city, 
+and wants to calculate the minimum total value of tolls she has to pay to go from her city to the client’s city, obeying her strange quirk that she has to pay an even number of tolls.
+
+Input
+The input consists of several test cases. The first line of a test case contains two integers C and V, 
+the total number of cities and the number of roads (2 ≤ C ≤ 104 and 0 ≤ V ≤ 50000). The cities are identified by integer numbers from 1 to C. 
+Each road links two different cities, and there is at most one road between each pair of cities. Each of the next V lines contains three integers C1, C2 and G, 
+indicating that the toll value of the road linking cities C1 and C2 is G (1 ≤ C1, C2 ≤ C and 1 ≤ G ≤ 104). Patricia is currently in city 1 and the client’s city is C.
+
+Output
+For each test case in the input your program must output exactly one line, containing exactly one integer, the minimum toll value for 
+Patricia to go from city 1 to city C, paying an even number of tolls, or, if that is not possible, the value ‘-1’.
 """
 
+# solve the problem above reading the input from the standard input and printing the output to the standard output
 
-# Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+import heapq
+
+
+def solve():
+    import sys
+    input = sys.stdin.read
+    data = input().split()
+    
+    index = 0
+    while index < len(data):
+        C = int(data[index])
+        V = int(data[index + 1])
+        index += 2
+        
+        if C == 0 and V == 0:
+            break
+        
+        graph = {i: [] for i in range(1, C + 1)}
+        for _ in range(V):
+            C1 = int(data[index])
+            C2 = int(data[index + 1])
+            G = int(data[index + 2])
+            index += 3
+            graph[C1].append((C2, G))
+            graph[C2].append((C1, G))
+        
+        visited = [False] * (C + 1)
+        dist = [float('inf')] * (C + 1)
+        dist[1] = 0
+        
+        pq = [(0, 1)]
+        while pq:
+            current_dist, u = heapq.heappop(pq)
+            
+            if visited[u]:
+                continue
+            
+            visited[u] = True
+            for v, weight in graph[u]:
+                if dist[v] > dist[u] + weight:
+                    dist[v] = dist[u] + weight
+                    heapq.heappush(pq, (dist[v], v))
+        
+        if dist[C] % 2 == 0:
+            print(dist[C])
+        else:
+            print(-1)
+
+if __name__ == "__main__":
+    solve()
+
+# 20% Correct answer with: 5 changes after copilot and/or copilot chat and 0 manual changes
 
 # =====================================================================================
 
 """
-7 - Maratona (ProblemId 2366, difficulty 7/10):
+7 - Help Clotilde (ProblemId 1910, difficulty 7/10):
+
+Clotilde loves watching television, but her television control is not conventional. 
+It has only six buttons, the on/off button and five buttons to change channels.
+
+The channel change buttons work as follows: +1 (advances one channel), -1 (subtract one channel), x2 
+(double the current channel), x3 (triple the current channel) and /2 (goes to the half of the current channel, 
+this button only works if the current channel is even).
+
+help Clotilde
+
+Here’s the Clotilde famous controll.
+
+The Clotilde neighbors often visit her house on weekends, 
+watch television and do not return to channel it was before, causing 
+Clotilde waste lots of time trying to find the channel of her interest again.
+
+Your task is, given the number of the current channel and the number of the channel that 
+Clotilde wants to watch, you must calculate the least amount of button clicks needed to 
+get out of one and get the other. Remeber that as Clotilde is a serious woman, she does not 
+like to go through some specific channels even if you have to press more buttons to get to the 
+destination channel. Another constraint is, there is no channel that is lower or equal to 0 or greater than 105. 
+Ex: If you are in the channel number 55000, you can’t press the button x2 or x3.
+
+Input
+There will be several test cases. Each one begins with three integers, O, D and K (1 ≤ O, D ≤ 105, 0 ≤ K ≤ 100), 
+representing, respectively, the source channel, destination, and the amount of channels that 
+Clotilde does not want to pass. The second line contains the K channels banned by Clotilde. 
+It is guaranteed that the source and destination channel will never be banned.
+The input ends with O = D = K = 0, which should not be processed.
+
+Output
+For each case, output a single line, the least amount of button clicks required to 
+get from the source channel to the destination or -1 if it is impossible to reach the 
+destination channel due to the restrictions of Clotilde.
 """
 
+# solve the problem above reading the input from the standard input and printing the output to the standard output
 
-# Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+def solve():
+    import sys
+    input = sys.stdin.read
+    data = input().split()
+    
+    index = 0
+    while True:
+        O = int(data[index])
+        D = int(data[index + 1])
+        K = int(data[index + 2])
+        index += 3
+        
+        if O == 0 and D == 0 and K == 0:
+            break
+        
+        banned = set()
+        for _ in range(K):
+            banned.add(int(data[index]))
+            index += 1
+        
+        visited = [False] * 100001
+        visited[O] = True
+        dist = [0] * 100001
+        queue = [O]
+        
+        while queue:
+            current_channel = queue.pop(0)
+            
+            if current_channel == D:
+                print(dist[current_channel])
+                break
+            
+            for next_channel in [current_channel + 1, current_channel - 1, current_channel * 2, current_channel * 3]:
+                if next_channel % 2 == 0:
+                    next_channel //= 2
+                
+                if 0 < next_channel <= 100000 and next_channel not in banned and not visited[next_channel]:
+                    visited[next_channel] = True
+                    dist[next_channel] = dist[current_channel] + 1
+                    queue.append(next_channel)
+        else:
+            print(-1)
+
+if __name__ == "__main__":
+    solve()
+
+
+# Time limit exceeded with: 6 changes after copilot and/or copilot chat and 0 manual changes
 
 # =====================================================================================
 
 """
-8 - Maratona (ProblemId 2366, difficulty 8/10):
+8 - Babel (ProblemId 1085, difficulty 8/10):
+
+John and Mary are brothers, and are enthusiastic about their courses on foreign languages. 
+Each one is taking several language courses. When they get home they comment about grammar, 
+vocabulary, culture of the different countries and so on. In one of those conversations they 
+realized that some words are common to more than one language, even though the words may have 
+different meanings in the languages. For example, the word "amigo" exists in Portuguese and 
+Spanish and has the same meaning, while "date" is a word that exists in English and French and 
+may have different meanings, since "date" is also a fruit, besides meaning a calendar date. 
+On the other hand, "red" in Spanish is a network, while in English it is a color.
+
+Thrilled by these findings, the brothers decided to write in a notepad all words in common they could 
+think of, associating each word to a pair of languages. Observant and smart, John proposed a challenge to 
+Mary: given one language to start and one language to finish, 
+write down a sequence of words such that the first word is included in the vocabulary of the start 
+language, and the last word is included in the vocabulary of the finish language. Two adjacent words 
+in the sequence must be in the vocabulary of the same language. For example, if the start language is 
+Portuguese and the finish language is French, Mary could write the sequence "amigo actual date" 
+(Portuguese/Spanish, Spanish/English, English/French).
+
+To John's surprise, Mary solved the problem rather easily. Annoyed by his sister's success, 
+he decided to make the problem more difficult: Mary must find a solution in which the sequence 
+has the smallest number of letters in total (not counting spaces between words), and, besides, two 
+consecutive words must not have the same initial letter.
+
+Note that the previous solution is now invalid, as "amigo" and "actual" share the same initial letter. 
+It is possible, however, to find another solution, "amigo red date", with a total length equal to 12.
+
+John did an extensive research on the Internet and compiled an enormous list of words, 
+and challenged Mary to solve the problem. As there may be more than one solution, he asked her 
+to answer if there is a solution, and in that case to answer the number of letters in the best solution. 
+Can you help Mary?
+
+Input
+The input contains several test cases. The first line of a test case contains one integer M (1 ≤ M ≤ 2000), 
+representing the total number of words compiled by John. The second line contains two distinct strings O and D, 
+separated by one space, indicating respectively the start language and the finish language. 
+Each of the next M lines contains three strings I1, I2 and P, separated by one space, 
+representing respectively two languages and one word in common between both languages (I1 and I2 arealways distinct). 
+All strings will have length at least 1 and at most 50, and will be composed of lower case letters only. 
+The same pair of languages may have several words associated to it, 
+but a word P will be never repeated in a test case.
+The end of input is indicated by a line containing only one zero.
+
+Output
+For each test case in the input, your program must print a line with a single integer, 
+the length of the shortest sequence that satisfies John's restrictions, or the word "impossivel" 
+(lowercase, meaning "impossible" in Portuguese) in case it is not possible.
 """
 
+# solve the problem above reading the input from the standard input and printing the output to the standard output
 
-# Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+def solve():
+    import sys
+    input = sys.stdin.read
+    data = input().split()
+    
+    index = 0
+    while True:
+        M = int(data[index])
+        index += 1
+        
+        if M == 0:
+            break
+        
+        start_language = data[index]
+        finish_language = data[index + 1]
+        index += 2
+        
+        words = {}
+        for _ in range(M):
+            I1 = data[index]
+            I2 = data[index + 1]
+            P = data[index + 2]
+            index += 3
+            words[(I1, I2)] = P
+        
+        visited = set()
+        queue = [(start_language, 0)]
+        visited.add(start_language)
+        
+        while queue:
+            current_language, length = queue.pop(0)
+            
+            if current_language == finish_language:
+                print(length)
+                break
+            
+            for (I1, I2), P in words.items():
+                if I1 == current_language and P[0] != P[0].upper() and I2 not in visited:
+                    visited.add(I2)
+                    queue.append((I2, length + len(P)))
+                elif I2 == current_language and P[0] != P[0].upper() and I1 not in visited:
+                    visited.add(I1)
+                    queue.append((I1, length + len(P)))
+        else:
+            print("impossivel")
+
+if __name__ == "__main__":
+    solve()
+
+
+# Time limit exceeded with: 6 changes after copilot and/or copilot chat and 0 manual changes
 
 # =====================================================================================
 
 """
-9 - Maratona (ProblemId 2366, difficulty 9/10):
+9 - Boss (ProblemId 1469, difficulty 9/10):
+
+Everyone knows Iks, the last trend in social network, which made so much success that competitors 
+like Facebook and Google+ are strugling to keep their own social networ ks in business. 
+As several “.com” companies, Iks started in a small garage, but today employs hundr eds of thousands. 
+Iks has also a non-standard management system. For example, there are no c ommittees or boards,
+which means less time spent on internal meetings. However, as usual i n other companies, there 
+is a chain (or rather several chains) of command, as a person may manage other emp loyees, 
+and may be managed by other employees. The figure below shows the chain of comman d for some employees, 
+along with their ages.
+
+
+
+A person P1 may manage another person P2 directly (when P1 is the immediate superior of P2 ) 
+or indirectly (when P1 manages direclty a person P3 who manages P2 directly or indirectly). 
+For example, in the figure above, Alice manages David directly and Claire in directly. 
+A person does not manage himself/herself, either directly or indirectly. One folklore that
+developed in Wall Street is that Iks is so successf ull because in its chain of 
+command a manager is always younger than the managed employee. As we can see in figure above, 
+that is not true. But this folklore prompted Iks to develop a tool to st udy its own management 
+system, and to understand whether age plays a role in its success. You have be en hired to work 
+on that tool. Given the description of the chain of command at Iks and the ages of its empl oyees, 
+write a program that answers a series of instructions. Instructions are of two types : management 
+change and query. An instruction of management change swaps the positions of two employees A and B . 
+As an example, figure (b) above shows the resulting chain of command when David and Ge orge change 
+their respective positions in the chain of command. A query instruction names one employ ee A and 
+asks the age of the youngest manager of A ; that is, the youngest person in the chain of command at 
+Iks that manages A , either directly or indirectly. For example, in figure (a) above the youngest 
+manager of Clara is 18 years old; in figure (b), the youngest manager of Clara is 21 years old.
+
+Input
+The input contains several test cases and ends with EOF. Each test case is described using 
+several lines. The first line of a test case contains three integers N (1 ≤ N ≤ 500), M(0 ≤ M ≤ 60 × 103) 
+and I(1 ≤ I ≤ 500) , representing respectively the number of employees, the number of direct manage 
+relations and the number of instructions. E mployees are identified by numbers from 1 to N . 
+The second line contains N integers Ki(1 ≤ Ki ≤ 100, para 1 ≤ i ≤ N) , 
+where Ki indicates the age of the employee number i .
+
+Each of the following M lines contains two integers X and Y(1 ≤ X, Y ≤ N, X != Y) , 
+indicating that X manages Y directly. Then it follows I lines, each describing an instruction. 
+An instruction of type managem ent change is described by a line containing the identifier 
+T followed by two integers A and B (1 ≤ A,B ≤ N) , indicating the two employers that must 
+swap places in the chain of command. An instruction of type query is described by a l
+ine containing the identifier P followed by one integer E(1 ≤ E ≤ N) , representing the number 
+of an employer. The last instruction is of type query.
+
+Output
+For each instruction of type query your program must print a single line containing a 
+single integer, the age of the employee who is the youngest person that manages the employer 
+named in the query (directly or indirectly), if that person exists. If the employe e does 
+not have a manager, print an '*' (asterisc).
 """
 
+# solve the problem above reading the input from the standard input and printing the output to the standard output
 
-# Correct answer with: 1 changes after copilot and/or copilot chat and 0 manual changes
+def solve():
+    import sys
+    input = sys.stdin.read
+    data = input().split()
+    
+    index = 0
+    while index < len(data):
+        N = int(data[index])
+        M = int(data[index + 1])
+        I = int(data[index + 2])
+        index += 3
+        
+        ages = [int(data[index + i]) for i in range(N)]
+        index += N
+        
+        adj = {i: [] for i in range(1, N + 1)}
+        for _ in range(M):
+            X = int(data[index])
+            Y = int(data[index + 1])
+            index += 2
+            adj[X].append(Y)
+        
+        def dfs(u, visited, ages):
+            visited[u] = True
+            youngest = ages[u - 1]
+            for v in adj[u]:
+                if not visited[v]:
+                    youngest = min(youngest, dfs(v, visited, ages))
+            return youngest
+        
+        for _ in range(I):
+            instruction = data[index]
+            index += 1
+            if instruction == "T":
+                A = int(data[index])
+                B = int(data[index + 1])
+                index += 2
+                ages[A - 1], ages[B - 1] = ages[B - 1], ages[A - 1]
+            else:
+                E = int(data[index])
+                index += 1
+                visited = [False] * (N + 1)
+                youngest = dfs(E, visited, ages)
+                if youngest == float('inf'):
+                    print("*")
+                else:
+                    print(youngest)
+
+
+if __name__ == "__main__":
+    solve()
+
+
+# 75% Correct answer with: 5 changes after copilot and/or copilot chat and 0 manual changes
 
 # =====================================================================================
 
