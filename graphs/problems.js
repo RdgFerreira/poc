@@ -807,59 +807,65 @@ not have a manager, print an '*' (asterisc).
 
 // solve the problem above reading the input from the standard input and printing the output to the standard output
 
-function solve(input) {
-    const lines = input.trim().split('\n');
-    let index = 0;
+const fs = require('fs');
+const input = fs.readFileSync('/dev/stdin', 'utf8').trim().split('\n');
+
+let index = 0;
+
+while (index < input.length) {
+    const [N, M, I] = input[index++].split(' ').map(Number);
+    const ages = input[index++].split(' ').map(Number);
+    const graph = Array.from({ length: N + 1 }, () => []);
+    const reverseGraph = Array.from({ length: N + 1 }, () => []);
+
+    for (let i = 0; i < M; i++) {
+        const [X, Y] = input[index++].split(' ').map(Number);
+        graph[X].push(Y);
+        reverseGraph[Y].push(X);
+    }
+
+    const instructions = input.slice(index, index + I);
+    index += I;
+
+    const swap = (A, B) => {
+        for (let i = 1; i <= N; i++) {
+            graph[i] = graph[i].map(e => (e === A ? B : e === B ? A : e));
+            reverseGraph[i] = reverseGraph[i].map(e => (e === A ? B : e === B ? A : e));
+        }
+        [graph[A], graph[B]] = [graph[B], graph[A]];
+        [reverseGraph[A], reverseGraph[B]] = [reverseGraph[B], reverseGraph[A]];
+    };
+
+    const findYoungestManager = (E) => {
+        const visited = Array(N + 1).fill(false);
+        const queue = [...reverseGraph[E]];
+        let youngest = Infinity;
+
+        while (queue.length > 0) {
+            const manager = queue.shift();
+            if (!visited[manager]) {
+                visited[manager] = true;
+                youngest = Math.min(youngest, ages[manager - 1]);
+                queue.push(...reverseGraph[manager]);
+            }
+        }
+
+        return youngest === Infinity ? '*' : youngest;
+    };
+
     const results = [];
 
-    while (index < lines.length) {
-        const [N, M, I] = lines[index].split(' ').map(Number);
-        const ages = lines[++index].split(' ').map(Number);
-        const graph = Array.from({ length: N }, () => []);
-        const managers = Array.from({ length: N }, () => -1);
-
-        for (let i = 0; i < M; i++) {
-            const [X, Y] = lines[++index].split(' ').map(Number);
-            graph[X - 1].push(Y - 1);
-        }
-
-        const dfs = (node) => {
-            for (const neighbor of graph[node]) {
-                if (ages[neighbor] < ages[node]) {
-                    managers[node] = Math.min(managers[node], ages[neighbor]);
-                }
-                dfs(neighbor);
-            }
-        };
-
-        for (let i = 0; i < N; i++) {
-            managers[i] = ages[i];
-            dfs(i);
-        }
-
-        const queries = [];
-        for (let i = 0; i < I; i++) {
-            const [T, A, B] = lines[++index].split(' ');
-            if (T === 'T') {
-                const temp = ages[A - 1];
-                ages[A - 1] = ages[B - 1];
-                ages[B - 1] = temp;
-            } else {
-                queries.push(A - 1);
-            }
-        }
-
-        for (const query of queries) {
-            results.push(managers[query] === Infinity ? '*' : managers[query]);
+    for (const instruction of instructions) {
+        const [T, A, B] = instruction.split(' ');
+        if (T === 'T') {
+            swap(Number(A), Number(B));
+        } else if (T === 'P') {
+            results.push(findYoungestManager(Number(A)));
         }
     }
 
-    return results.join('\n');
+    console.log(results.join('\n'));
 }
-
-// Example usage:
-const input = require('fs').readFileSync('/dev/stdin', 'utf8');
-console.log(solve(input));
 
 
 
